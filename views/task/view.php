@@ -31,7 +31,7 @@ $this->params['buttons'] = [
         'confirm' => 'Добавить этот документ в избранное?',
         'method' => 'post',
     ]]),
-    'viewed' =>  ($model->user_id != Yii::$app->user->identity->id and $viewed_button) ? Html::a('<i class="far fa-check-circle text-success"></i>Просмотрено', ['viewed', 'id' => $model->id], ['class' => 'btn btn-app']) : null,
+    'viewed' =>  ($model->user_id != Yii::$app->user->identity->id and $viewed_button) ? Html::a('<i class="far fa-check-circle text-success"></i>Ознакомлен', ['viewed', 'id' => $model->id], ['class' => 'btn btn-app']) : null,
     'publish' =>  ($model->status == $model::STATUS_DRAFT and ($model->user_id == Yii::$app->user->identity->id or Yii::$app->user->can('admin'))) ? Html::a('<i class="far fa-check-circle text-dark"></i>Опубликовать', ['publish', 'id' => $model->id], ['class' => 'btn btn-app']) : null,
     'update' => (Yii::$app->user->can('admin') or $model->user_id == Yii::$app->user->identity->id or $model->executor_id == Yii::$app->user->identity->id) ? Html::a('<i class="fas fa-edit text-primary"></i> Изменить', ['update', 'id' => $model->id], ['class' => 'btn btn-app']) : null,
     /*  'delete' =>  Html::a('<i class="fas fa-trash-alt text-danger"></i> Удалить', ['delete', 'id' => $model->id], [
