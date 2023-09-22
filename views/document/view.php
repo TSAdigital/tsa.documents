@@ -225,7 +225,7 @@ $this->params['buttons'] = [
                                                 <th scope="col"  style="width: 5%; text-align: center; white-space: nowrap">' . Html::a('<i class="fas fa-plus-circle text-success"></i>', '#', ['data-toggle' => 'modal', 'data-target' => '#tasks']) . '</th>                                                   
                                             </tr>
                                         </thead>
-                                        <tbody>
+                                            <tbody>
                                             {items}
                                             </tbody>
                                         </table>
@@ -243,7 +243,7 @@ $this->params['buttons'] = [
                                                 <th scope="col" style="width: 100%; white-space: nowrap">Задача</th>                                                                                         
                                             </tr>
                                         </thead>
-                                        <tbody>
+                                            <tbody>
                                             {items}
                                             </tbody>
                                         </table>
@@ -336,7 +336,7 @@ $this->params['buttons'] = [
                                                             <th scope="col" class="col-5 col-md-4 col-lg-3" style="text-align: center; white-space: nowrap">Дата</th>                                                                                                  
                                                         </tr>
                                                     </thead>
-                                                    <tbody>
+                                                        <tbody>
                                                         {items}
                                                         </tbody>
                                                     </table>
