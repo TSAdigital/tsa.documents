@@ -22,7 +22,7 @@ class DocumentSearch extends Document
         return [
             ['status', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_INACTIVE, self::STATUS_DRAFT]],
 
-            ['type', 'in', 'range' => [self::TYPE_INCOMING, self::TYPE_OUTGOING, self::TYPE_INTERNAL]],
+            ['type', 'in', 'range' => [self::TYPE_INCOMING, self::TYPE_OUTGOING, self::TYPE_INTERNAL, self::TYPE_ORDER, self::TYPE_MEMOS, self::TYPE_LETTER, self::TYPE_REPORT, self::TYPE_STU, self::TYPE_SOP, self::TYPE_MANUAL]],
 
             [['name', 'number'], 'string'],
             [['name', 'number'], 'filter', 'filter' => '\yii\helpers\HtmlPurifier::process'],

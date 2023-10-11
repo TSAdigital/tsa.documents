@@ -45,6 +45,13 @@ class Document extends ActiveRecord
     const TYPE_INCOMING = 8;
     const TYPE_OUTGOING= 9;
     const TYPE_INTERNAL = 10;
+    const TYPE_ORDER = 11;
+    const TYPE_MEMOS = 12;
+    const TYPE_LETTER = 13;
+    const TYPE_REPORT = 14;
+    const TYPE_STU = 15;
+    const TYPE_SOP = 16;
+    const TYPE_MANUAL = 17;
 
 
     /**
@@ -103,7 +110,7 @@ class Document extends ActiveRecord
             ['user_id', 'filter', 'filter' => '\yii\helpers\HtmlPurifier::process'],
             ['user_id', 'required'],
 
-            ['type', 'in', 'range' => [self::TYPE_INCOMING, self::TYPE_OUTGOING, self::TYPE_INTERNAL]],
+            ['type', 'in', 'range' => [self::TYPE_INCOMING, self::TYPE_OUTGOING, self::TYPE_INTERNAL, self::TYPE_ORDER, self::TYPE_MEMOS, self::TYPE_LETTER, self::TYPE_REPORT, self::TYPE_STU, self::TYPE_SOP, self::TYPE_MANUAL]],
             ['type', 'required'],
 
             ['status', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_INACTIVE, self::STATUS_DRAFT]],
@@ -176,6 +183,13 @@ class Document extends ActiveRecord
             self::TYPE_INCOMING => 'Входящий',
             self::TYPE_OUTGOING => 'Исходящий',
             self::TYPE_INTERNAL => 'Внутренний',
+            self::TYPE_ORDER => 'Приказ',
+            self::TYPE_MEMOS => 'Служебная записка',
+            self::TYPE_LETTER => 'Письмо',
+            self::TYPE_REPORT => 'Отчет',
+            self::TYPE_STU => 'СТУ',
+            self::TYPE_SOP => 'СОП',
+            self::TYPE_MANUAL => 'Инструкция',
         ];
     }
 
