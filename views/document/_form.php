@@ -1,5 +1,6 @@
 <?php
 
+use app\models\DocumentType;
 use app\models\User;
 use kartik\date\DatePicker;
 use kartik\form\ActiveForm;
@@ -29,7 +30,14 @@ use yii\helpers\ArrayHelper;
 
 <?= $form->field($model, 'number')->textInput(['maxlength' => true]) ?>
 
-<?= $form->field($model, 'type')->dropDownList($model->getTypesArray(), ['prompt' => 'Выберите тип...']) ?>
+<?= $form->field($model, 'type')->widget(Select2::class,
+    [
+        'data' => $model->type0 ? ArrayHelper::map(DocumentType::find()->where(['id' => $model->type])->orWhere(['status' => 10])->orderBy('name ASC')->all(), 'id', 'name') : ArrayHelper::map(DocumentType::find()->where(['status' => 10])->orderBy('name ASC')->all(), 'id', 'name'),
+        'options' => ['placeholder' => 'Выберите тип документа...'],
+        'pluginOptions' => [
+            'allowClear' => true
+        ],
+    ]); ?>
 
 <?= $form->field($model, 'executor_id')->widget(Select2::class,
     [
