@@ -1,5 +1,6 @@
 <?php
 
+use app\models\DocumentType;
 use app\models\User;
 use kartik\date\DatePicker;
 use kartik\select2\Select2;
@@ -59,7 +60,7 @@ $this->registerJs($script);
     ]) ?>
 </div>
 
-<?= $form->field($model, 'type')->dropDownList($model->getTypesArray(), ['prompt' => 'Выберите тип...']) ?>
+<?= $form->field($model, 'type')->dropDownList(ArrayHelper::map(DocumentType::find()->all(), 'id', 'name'), ['prompt' => 'Выберите тип документа...']) ?>
 
 <?= $form->field($model, 'status')->dropDownList($model->getStatusesArray(), ['prompt' => 'Выберите статус...']) ?>
 

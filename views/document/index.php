@@ -1,8 +1,10 @@
 <?php
 
 use app\models\Document;
+use app\models\DocumentType;
 use app\models\View;
 use yii\bootstrap4\Modal;
+use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\helpers\StringHelper;
 use yii\grid\GridView;
@@ -103,10 +105,10 @@ $this->params['buttons'] = [
                             [
                                 'attribute' => 'type',
                                 'options' => ['width' => '10%'],
-                                'filter' => Document::getTypesArray(),
+                                'filter' => ArrayHelper::map(DocumentType::find()->all(), 'id', 'name'),
                                 'headerOptions' => ['style' => 'text-align: center !important; vertical-align: middle !important; min-width:160px; white-space: nowrap'],
                                 'contentOptions' => ['style' => 'text-align: center !important; vertical-align: middle !important; min-width:160px;'],
-                                'value' => function ($model) { return $model->getTypeName(); }
+                                'value' => function ($model) { return $model->type0->name; }
                             ],
                             [
                                 'filter' => Document::getStatusesArray(),

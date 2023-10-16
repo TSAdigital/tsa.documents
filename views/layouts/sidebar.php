@@ -28,6 +28,7 @@ use hail812\adminlte\widgets\Menu;
                     ['label' => 'Группы', 'url' => ['group/index'], 'active'=> $this->context->getUniqueId() == 'group', 'icon' => '', 'visible' => Yii::$app->user->can('admin') or Yii::$app->user->can('editor')],
                     ['label' => 'Должности', 'url' => ['position/index'], 'active'=> $this->context->getUniqueId() == 'position', 'icon' => '', 'visible' => Yii::$app->user->can('admin')],
                     ['label' => 'Сотрудники', 'url' => ['employee/index'], 'active'=> $this->context->getUniqueId() == 'employee', 'icon' => '', 'visible' => Yii::$app->user->can('admin')],
+                    ['label' => 'Типы документов', 'url' => ['document-type/index'], 'active'=> $this->context->getUniqueId() == 'document-type', 'icon' => '', 'visible' => Yii::$app->user->can('admin')],
                     ['label' => 'НАСТРОЙКИ', 'header' => true, 'visible' => Yii::$app->user->can('admin')],
                     ['label' => 'Пользователи', 'url' => ['user/index'], 'active'=> $this->context->getUniqueId() == 'user', 'icon' => '', 'visible' => Yii::$app->user->can('admin')],
                 ],

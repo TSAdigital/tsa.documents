@@ -80,7 +80,7 @@ $this->params['buttons'] = [
                                         <td><p class="mb-0"><b><?= $model->getAttributeLabel('date') ?>: </b><?= Html::encode($model->date) ?></p></td>
                                     </tr>
                                     <tr>
-                                        <td><p class="mb-0"><b><?= $model->getAttributeLabel('type') ?>: </b><?= Html::encode($model->getTypeName()) ?></p></td>
+                                        <td><p class="mb-0"><b><?= $model->getAttributeLabel('type') ?>: </b><?= Html::encode($model->type0->name) ?></p></td>
                                     </tr>
                                     <tr>
                                         <td><p class="mb-0"><b><?= $model->getAttributeLabel('user_id') ?>: </b><?= Html::encode(isset($model->user->employee) ? Html::encode($model->user->employee->employeeFullName) : Html::encode($model->user->username)) ?></p></td>
@@ -120,7 +120,7 @@ $this->params['buttons'] = [
                                         'date',
                                         [
                                             'attribute' => 'type',
-                                            'value' => $model->getTypeName(),
+                                            'value' => $model->type0->name,
                                         ],
                                         [
                                             'attribute' => 'user_id',

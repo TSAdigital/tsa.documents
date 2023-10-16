@@ -29,6 +29,7 @@ use yii\helpers\Json;
  * @property int $created_at
  * @property int $updated_at
  * @property User $user
+ * @property DocumentType $type0
  */
 class Document extends ActiveRecord
 {
@@ -41,18 +42,6 @@ class Document extends ActiveRecord
 
     const DISCUSSION_DISABLE = 0;
     const DISCUSSION_ENABLE = 1;
-
-    const TYPE_INCOMING = 8;
-    const TYPE_OUTGOING= 9;
-    const TYPE_INTERNAL = 10;
-    const TYPE_ORDER = 11;
-    const TYPE_MEMOS = 12;
-    const TYPE_LETTER = 13;
-    const TYPE_REPORT = 14;
-    const TYPE_STU = 15;
-    const TYPE_SOP = 16;
-    const TYPE_MANUAL = 17;
-
 
     /**
      * @return string
@@ -110,7 +99,9 @@ class Document extends ActiveRecord
             ['user_id', 'filter', 'filter' => '\yii\helpers\HtmlPurifier::process'],
             ['user_id', 'required'],
 
-            ['type', 'in', 'range' => [self::TYPE_INCOMING, self::TYPE_OUTGOING, self::TYPE_INTERNAL, self::TYPE_ORDER, self::TYPE_MEMOS, self::TYPE_LETTER, self::TYPE_REPORT, self::TYPE_STU, self::TYPE_SOP, self::TYPE_MANUAL]],
+            ['type', 'integer'],
+            ['type', 'exist', 'skipOnError' => true, 'targetClass' => DocumentType::class, 'targetAttribute' => ['type' => 'id']],
+            ['type', 'filter', 'filter' => '\yii\helpers\HtmlPurifier::process'],
             ['type', 'required'],
 
             ['status', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_INACTIVE, self::STATUS_DRAFT]],
@@ -153,6 +144,14 @@ class Document extends ActiveRecord
     }
 
     /**
+     * @return ActiveQuery
+     */
+    public function getType0()
+    {
+        return $this->hasOne(DocumentType::class, ['id' => 'type']);
+    }
+
+    /**
      * Gets query for [[Executor]].
      *
      * @return \yii\db\ActiveQuery
@@ -175,41 +174,12 @@ class Document extends ActiveRecord
     }
 
     /**
-     * @return array
-     */
-    public static function getTypesArray()
-    {
-        return [
-            self::TYPE_INCOMING => 'Входящий',
-            self::TYPE_OUTGOING => 'Исходящий',
-            self::TYPE_INTERNAL => 'Внутренний',
-            self::TYPE_ORDER => 'Приказ',
-            self::TYPE_MEMOS => 'Служебная записка',
-            self::TYPE_LETTER => 'Письмо',
-            self::TYPE_REPORT => 'Отчет',
-            self::TYPE_STU => 'СТУ',
-            self::TYPE_SOP => 'СОП',
-            self::TYPE_MANUAL => 'Инструкция',
-        ];
-    }
-
-
-    /**
      * @return mixed
      * @throws Exception
      */
     public function getStatusName()
     {
         return ArrayHelper::getValue(self::getStatusesArray(), $this->status);
-    }
-
-    /**
-     * @return mixed
-     * @throws Exception
-     */
-    public function getTypeName()
-    {
-        return ArrayHelper::getValue(self::getTypesArray(), $this->type);
     }
 
     /**
