@@ -6,6 +6,8 @@
 /* @var $new_task app\models\Task */
 /* @var $document_favourites app\models\DocumentFavourites */
 /* @var $task_favourites app\models\TaskFavourites */
+/* @var $news app\models\News */
+
 /* @var integer $documents_count */
 /* @var integer $tasks_count */
 
@@ -18,7 +20,7 @@ $this->params['breadcrumbs'][] = 'Личный кабинет';
 
 <div class="container-fluid">
     <div class="row">
-        <div class="col-12 col-sm-12 col-md-12 col-lg-9 col-xl-7">
+        <div class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6">
             <div class="card card-primary card-outline">
                 <div class="card-body box-profile">
                     <div class="text-center">
@@ -180,7 +182,39 @@ $this->params['breadcrumbs'][] = 'Личный кабинет';
                 </div>
             </div>
         </div>
-        <div class="col-12 col-sm-12 col-md-12 col-lg-3 col-xl-5">
+        <div class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6">
+
+            <div class="card">
+                <div class="card-header p-2">
+                    <ul class="nav nav-pills">
+                        <li class="nav-item"><a class="nav-link active" href="#news" data-toggle="tab">Новости и объявления</a></li>
+                    </ul>
+                </div>
+                <div class="card-body">
+                    <div class="tab-content">
+                        <div class="active tab-pane" id="news">
+
+                            <?= ListView::widget([
+                                'dataProvider' => $news,
+                                //'layout' => $template,
+                                'emptyText' => 'Новости еще не добавляли.',
+                                'viewParams' => [
+                                    'page_size' => $news->pagination->pageSize,
+                                    'current_page' => (int) is_numeric(Yii::$app->request->get('page-news')) ? Yii::$app->request->get('page-news') : 0
+                                ],
+                                'itemView' => '_list-news',
+                                'pager' => [
+                                    'options' => [
+                                        'id' => 'list-viewed-pagination',
+                                    ]
+                                ],
+                            ]);
+                            ?>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>

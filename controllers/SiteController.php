@@ -4,6 +4,7 @@ namespace app\controllers;
 
 use app\models\Document;
 use app\models\DocumentFavourites;
+use app\models\News;
 use app\models\Task;
 use app\models\TaskFavourites;
 use app\models\User;
@@ -209,6 +210,19 @@ class SiteController extends Controller
             ],
         ]);
 
+        $news = new ActiveDataProvider([
+            'query' => News::find()->where(['status' => News::STATUS_ACTIVE]),
+            'sort'=> ['defaultOrder' => ['created_at' => SORT_DESC]],
+            'pagination' => [
+                'pageSize' => 5,
+                'pageParam' => 'page-news',
+                'params' => [
+                    '#' => 'news',
+                    'page-news' => Yii::$app->request->get('page-news'),
+                ],
+            ],
+        ]);
+
         return $this->render('account', [
             'user' => $user,
             'document_favourites' => $document_favourites,
@@ -217,6 +231,7 @@ class SiteController extends Controller
             'new_task' => $new_task,
             'documents_count' => $documents->count(),
             'tasks_count' => $tasks->count(),
+            'news' => $news,
         ]);
     }
 }
