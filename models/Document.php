@@ -20,6 +20,7 @@ use yii\helpers\Json;
  * @property string $name
  * @property string $number
  * @property string $date
+ * @property string $validity_period
  * @property Json $resolution
  * @property int|null $executor_id
  * @property int $user_id
@@ -81,6 +82,9 @@ class Document extends ActiveRecord
             ['date', 'date'],
             ['date', 'required'],
 
+            ['validity_period', 'date'],
+            ['validity_period', 'checkValidityPeriod'],
+
             ['uniq_id', 'string'],
             ['uniq_id', 'required'],
 
@@ -125,6 +129,7 @@ class Document extends ActiveRecord
             'name' => 'Наименование',
             'number' => 'Номер',
             'date' => 'Дата',
+            'validity_period' => 'Действует до',
             'type' => 'Тип',
             'executor_id' => 'Куратор',
             'resolution' => 'Резолюция',
@@ -189,6 +194,7 @@ class Document extends ActiveRecord
     public function beforeSave($insert)
     {
         $this->date = !empty($this->date) ? date('Y-m-d', strtotime($this->date)) : NULL;
+        $this->validity_period = !empty($this->validity_period) ? date('Y-m-d', strtotime($this->validity_period)) : NULL;
 
         return parent::beforeSave($insert);
     }
@@ -202,6 +208,7 @@ class Document extends ActiveRecord
         parent::afterFind();
 
         $this->date = !empty($this->date) ? Yii::$app->formatter->asDate($this->date) : NULL;
+        $this->validity_period = !empty($this->validity_period) ? Yii::$app->formatter->asDate($this->validity_period) : NULL;
     }
 
 
@@ -213,4 +220,17 @@ class Document extends ActiveRecord
     {
         return implode(' &equiv; ', ArrayHelper::map(User::findAll(['id' => $id]),'id', function($data){return  Html::a($data->employee_name, ['site/profile', 'id' => $data->id]);}));
     }
+
+    /**
+     * @param $attribute
+     * @return void
+     */
+    public function checkValidityPeriod($attribute) {
+        if ($this->validity_period) {
+            if(strtotime($this->validity_period) < strtotime($this->date)){
+                $this->addError($attribute, 'Дата действия документа не должна быть меньше даты документа.');
+            }
+        }
+    }
+
 }

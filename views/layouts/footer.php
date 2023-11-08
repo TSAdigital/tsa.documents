@@ -1,6 +1,6 @@
 <footer class="main-footer">
     Разработано в <a href="https://tsa-digital.ru" class="text-muted" target='_blank' rel='noopener'>TSA Digital</a>
     <div class="float-right d-none d-sm-inline-block">
-        Версия 1.0.5
+        Версия 1.0.6
     </div>
 </footer>

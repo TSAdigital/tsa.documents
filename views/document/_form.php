@@ -18,7 +18,18 @@ use yii\helpers\ArrayHelper;
 <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
 
 <?= $form->field($model, 'date', ['enableClientValidation' => false])->widget(DatePicker::class, [
-    'options' => ['placeholder' => 'Ввод даты...'],
+    'options' => ['placeholder' => 'Введите дату документа...'],
+    'value' => 'dd.mm.yyyy',
+    'pluginOptions' => [
+        'format' => 'dd.mm.yyyy',
+        'autoclose' => true,
+        'todayBtn' => true,
+        'todayHighlight' => true,
+    ]
+]) ?>
+
+<?= $form->field($model, 'validity_period', ['enableClientValidation' => false])->widget(DatePicker::class, [
+    'options' => ['placeholder' => 'Введите срок действия документа или оставьте поле пустым...'],
     'value' => 'dd.mm.yyyy',
     'pluginOptions' => [
         'format' => 'dd.mm.yyyy',

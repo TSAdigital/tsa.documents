@@ -51,6 +51,11 @@ $this->params['buttons'] = [
 ?>
 
 <div class="container-fluid">
+<?php if(!empty($model->validity_period) and time() > strtotime($model->validity_period . ' 23:59:59')) : ?>
+    <div class="callout callout-danger">
+        <p class="mb-0">Документ утратил силу <b><?= $model->validity_period ?></b></p>
+    </div>
+<?php endif; ?>
     <div class="row">
         <div class="col-12">
             <div class="card">
@@ -79,6 +84,11 @@ $this->params['buttons'] = [
                                     <tr>
                                         <td><p class="mb-0"><b><?= $model->getAttributeLabel('date') ?>: </b><?= Html::encode($model->date) ?></p></td>
                                     </tr>
+                                    <?php if(!empty($model->validity_period)) : ?>
+                                        <tr>
+                                            <td><p class="mb-0"><b><?= $model->getAttributeLabel('validity_period') ?>: </b><?= Html::encode($model->validity_period) ?></p></td>
+                                        </tr>
+                                    <?php endif; ?>
                                     <tr>
                                         <td><p class="mb-0"><b><?= $model->getAttributeLabel('type') ?>: </b><?= Html::encode($model->type0->name) ?></p></td>
                                     </tr>
@@ -118,6 +128,10 @@ $this->params['buttons'] = [
                                         ],
                                         'name',
                                         'date',
+                                        [
+                                            'attribute' => 'validity_period',
+                                            'visible' => !empty($model->validity_period)
+                                        ],
                                         [
                                             'attribute' => 'type',
                                             'value' => $model->type0->name,
