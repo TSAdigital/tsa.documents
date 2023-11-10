@@ -1,11 +1,14 @@
 <?php
 
+use app\models\Document;
 use app\models\DocumentType;
 use app\models\User;
 use kartik\date\DatePicker;
 use kartik\form\ActiveForm;
 use kartik\select2\Select2;
 use yii\helpers\ArrayHelper;
+use yii\helpers\Url;
+use yii\web\JsExpression;
 
 /** @var yii\web\View $this */
 /** @var app\models\Document $model */
@@ -14,6 +17,28 @@ use yii\helpers\ArrayHelper;
 ?>
 
 <?php $form = ActiveForm::begin(['id' => 'document']); ?>
+
+<?= $form->field($model, 'document_id')->widget(Select2::classname(),
+    [
+        'data' => ArrayHelper::map(Document::find()->where(['id' => $model->document_id])->all(), 'id', 'name'),
+        'options' => ['placeholder' => 'Выберите документ на основании которого создается данный документ или оставьте поле пустым...'],
+        'pluginOptions' => [
+            'allowClear' => true,
+            'minimumInputLength' => 3,
+            'language' => [
+                'errorLoading' => new JsExpression("function () { return 'Ждем результатов...'; }"),
+            ],
+            'ajax' => [
+                'url' => Url::to(['document/document-list']),
+                'dataType' => 'json',
+                'data' => new JsExpression('function(params) { return {q:params.term}; }')
+            ],
+            'escapeMarkup' => new JsExpression('function (markup) { return markup; }'),
+            'templateResult' => new JsExpression('function(address_id) { return address_id.text; }'),
+            'templateSelection' => new JsExpression('function (address_id) { return address_id.text; }'),
+        ],
+    ]);
+?>
 
 <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
 

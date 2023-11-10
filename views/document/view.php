@@ -76,6 +76,9 @@ $this->params['buttons'] = [
                                 <table class="table table-striped table-bordered mb-0">
                                     <tbody>
                                     <tr>
+                                        <td><p class="mb-0"><b><?= $model->getAttributeLabel('document_id') ?>: </b><?= $model->document0 ? Html::a(Html::encode($model->document0->name), ['document/view', 'id' => $model->document0->id], ['data-pjax' => 0]) : null ?></p></td>
+                                    </tr>
+                                    <tr>
                                         <td><p class="mb-0"><b><?= $model->getAttributeLabel('name') ?>: </b><?= Html::encode($model->name) ?></p></td>
                                     </tr>
                                     <tr>
@@ -122,6 +125,13 @@ $this->params['buttons'] = [
                                     'model' => $model,
                                     'options' => ['class' => 'table table-striped table-bordered mb-0'],
                                     'attributes' => [
+                                        [
+                                            'attribute' => 'document_id',
+                                            'format' => 'raw',
+                                            'visible' => !empty($model->document_id),
+                                            'value' => $model->document0 ? Html::a(Html::encode($model->document0->name), ['document/view', 'id' => $model->document0->id], ['data-pjax' => 0]) : null
+
+                                        ],
                                         [
                                             'attribute' => 'number',
                                             'captionOptions' => ['width' => '170px'],

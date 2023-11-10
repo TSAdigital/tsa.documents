@@ -21,6 +21,7 @@ use yii\helpers\Json;
  * @property string $number
  * @property string $date
  * @property string $validity_period
+ * @property string $document_id
  * @property Json $resolution
  * @property int|null $executor_id
  * @property int $user_id
@@ -31,6 +32,7 @@ use yii\helpers\Json;
  * @property int $updated_at
  * @property User $user
  * @property DocumentType $type0
+ * @property Document $document0
  */
 class Document extends ActiveRecord
 {
@@ -85,6 +87,10 @@ class Document extends ActiveRecord
             ['validity_period', 'date'],
             ['validity_period', 'checkValidityPeriod'],
 
+            ['document_id', 'integer'],
+            ['document_id', 'exist', 'skipOnError' => true, 'targetClass' => Document::class, 'targetAttribute' => ['document_id' => 'id']],
+            ['document_id', 'filter', 'filter' => '\yii\helpers\HtmlPurifier::process'],
+
             ['uniq_id', 'string'],
             ['uniq_id', 'required'],
 
@@ -130,6 +136,7 @@ class Document extends ActiveRecord
             'number' => 'Номер',
             'date' => 'Дата',
             'validity_period' => 'Действует до',
+            'document_id' => 'На основании',
             'type' => 'Тип',
             'executor_id' => 'Куратор',
             'resolution' => 'Резолюция',
@@ -154,6 +161,14 @@ class Document extends ActiveRecord
     public function getType0()
     {
         return $this->hasOne(DocumentType::class, ['id' => 'type']);
+    }
+
+    /**
+     * @return ActiveQuery
+     */
+    public function getDocument0()
+    {
+        return $this->hasOne(Document::class, ['id' => 'document_id']);
     }
 
     /**
