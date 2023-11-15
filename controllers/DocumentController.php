@@ -567,6 +567,11 @@ class DocumentController extends Controller
                         ['like', 'name', $q],
                         ['like', 'uniq_id', $q]
                     ])
+                    ->orWhere(['executor_id' => $user_id])->andWhere(['status' => [Document::STATUS_ACTIVE]])->andWhere([
+                        'OR',
+                        ['like', 'name', $q],
+                        ['like', 'uniq_id', $q]
+                    ])
                     ->limit(30);
             }
             $command = $query->createCommand();
