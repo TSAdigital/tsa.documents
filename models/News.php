@@ -50,11 +50,12 @@ class News extends \yii\db\ActiveRecord
         return [
             ['title', 'required'],
             ['title', 'string', 'max' => 255],
-            ['title', 'unique'],
+            ['title', 'trim'],
             ['title', 'filter', 'filter' => '\yii\helpers\HtmlPurifier::process'],
 
             ['text', 'string'],
-            ['title', 'filter', 'filter' => '\yii\helpers\HtmlPurifier::process'],
+            ['text', 'trim'],
+            ['text', 'filter', 'filter' => '\yii\helpers\HtmlPurifier::process'],
 
             ['user_id', 'integer'],
             ['user_id', 'required'],
