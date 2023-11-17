@@ -20,18 +20,19 @@ use hail812\adminlte\widgets\Menu;
                     'data-accordion' => 'false'
                 ],
                 'items' => [
-                    ['label' => 'НАВИГАЦИЯ', 'header' => true],
-                    ['label' => 'Документы', 'url' => ['document/index'], 'active'=> $this->context->getUniqueId() == 'document', 'icon' => ''],
-                    ['label' => 'Задачи', 'url' => ['task/index'], 'active'=> $this->context->getUniqueId() == 'task', 'icon' => ''],
-                    ['label' => 'Новости', 'url' => ['news/index'], 'active'=> $this->context->getUniqueId() == 'news', 'icon' => '', 'visible' => Yii::$app->user->can('admin')],
+                    ['label' => 'НАВИГАЦИЯ', 'header' => true, 'visible' => Yii::$app->user->can('admin') or Yii::$app->user->can('viewDocuments') or Yii::$app->user->can('viewTasks') or Yii::$app->user->can('viewNews')],
+                    ['label' => 'Документы', 'url' => ['document/index'], 'active'=> $this->context->getUniqueId() == 'document', 'icon' => '', 'visible' => Yii::$app->user->can('admin') or Yii::$app->user->can('viewDocuments')],
+                    ['label' => 'Задачи', 'url' => ['task/index'], 'active'=> $this->context->getUniqueId() == 'task', 'icon' => '', 'visible' => Yii::$app->user->can('admin') or Yii::$app->user->can('viewTasks')],
+                    ['label' => 'Новости', 'url' => ['news/index'], 'active'=> $this->context->getUniqueId() == 'news', 'icon' => '', 'visible' => Yii::$app->user->can('admin') or Yii::$app->user->can('viewNews')],
 
-                    ['label' => 'СПРАВОЧНИКИ', 'header' => true, 'visible' => Yii::$app->user->can('admin') or Yii::$app->user->can('editor')],
-                    ['label' => 'Группы', 'url' => ['group/index'], 'active'=> $this->context->getUniqueId() == 'group', 'icon' => '', 'visible' => Yii::$app->user->can('admin') or Yii::$app->user->can('editor')],
-                    ['label' => 'Должности', 'url' => ['position/index'], 'active'=> $this->context->getUniqueId() == 'position', 'icon' => '', 'visible' => Yii::$app->user->can('admin')],
-                    ['label' => 'Сотрудники', 'url' => ['employee/index'], 'active'=> $this->context->getUniqueId() == 'employee', 'icon' => '', 'visible' => Yii::$app->user->can('admin')],
-                    ['label' => 'Типы документов', 'url' => ['document-type/index'], 'active'=> $this->context->getUniqueId() == 'document-type', 'icon' => '', 'visible' => Yii::$app->user->can('admin')],
+                    ['label' => 'СПРАВОЧНИКИ', 'header' => true, 'visible' => Yii::$app->user->can('admin') or Yii::$app->user->can('viewGroups') or Yii::$app->user->can('viewPositions') or Yii::$app->user->can('viewEmployees') or Yii::$app->user->can('viewDocumentsType')],
+                    ['label' => 'Группы', 'url' => ['group/index'], 'active'=> $this->context->getUniqueId() == 'group', 'icon' => '', 'visible' => Yii::$app->user->can('admin') or Yii::$app->user->can('viewGroups')],
+                    ['label' => 'Должности', 'url' => ['position/index'], 'active'=> $this->context->getUniqueId() == 'position', 'icon' => '', 'visible' => Yii::$app->user->can('admin') or Yii::$app->user->can('viewPositions')],
+                    ['label' => 'Сотрудники', 'url' => ['employee/index'], 'active'=> $this->context->getUniqueId() == 'employee', 'icon' => '', 'visible' => Yii::$app->user->can('admin') or Yii::$app->user->can('viewEmployees')],
+                    ['label' => 'Типы документов', 'url' => ['document-type/index'], 'active'=> $this->context->getUniqueId() == 'document-type', 'icon' => '', 'visible' => Yii::$app->user->can('admin') or Yii::$app->user->can('viewDocumentsType')],
                     ['label' => 'НАСТРОЙКИ', 'header' => true, 'visible' => Yii::$app->user->can('admin')],
                     ['label' => 'Пользователи', 'url' => ['user/index'], 'active'=> $this->context->getUniqueId() == 'user', 'icon' => '', 'visible' => Yii::$app->user->can('admin')],
+                    ['label' => 'Роли', 'url' => ['auth-item/index'], 'active'=> $this->context->getUniqueId() == 'auth-item', 'icon' => '', 'visible' => Yii::$app->user->can('admin')],
                 ],
             ]);
             ?>

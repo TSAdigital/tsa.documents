@@ -4,7 +4,6 @@ namespace app\controllers;
 
 use app\models\Group;
 use app\models\GroupSearch;
-use app\models\Task;
 use Yii;
 use yii\filters\AccessControl;
 use yii\web\Controller;
@@ -37,22 +36,22 @@ class GroupController extends Controller
                         [
                             'allow' => true,
                             'actions' => ['index'],
-                            'roles' => ['admin', 'editor'],
+                            'roles' => ['admin', 'viewGroups'],
                         ],
                         [
                             'allow' => true,
                             'actions' => ['view'],
-                            'roles' => ['admin', 'editor'],
+                            'roles' => ['admin', 'viewGroups'],
                         ],
                         [
                             'allow' => true,
                             'actions' => ['create'],
-                            'roles' => ['admin', 'editor'],
+                            'roles' => ['admin', 'createGroups'],
                         ],
                         [
                             'allow' => true,
                             'actions' => ['update'],
-                            'roles' => ['admin', 'editor'],
+                            'roles' => ['admin', 'updateGroups'],
                         ],
                         [
                             'allow' => true,

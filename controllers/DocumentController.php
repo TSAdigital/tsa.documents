@@ -52,22 +52,22 @@ class DocumentController extends Controller
                         [
                             'allow' => true,
                             'actions' => ['index'],
-                            'roles' => ['admin', 'user', 'editor'],
+                            'roles' => ['admin', 'viewDocuments'],
                         ],
                         [
                             'allow' => true,
                             'actions' => ['view'],
-                            'roles' => ['admin', 'user', 'editor'],
+                            'roles' => ['admin', 'viewDocuments'],
                         ],
                         [
                             'allow' => true,
                             'actions' => ['create'],
-                            'roles' => ['admin', 'editor'],
+                            'roles' => ['admin', 'createDocuments'],
                         ],
                         [
                             'allow' => true,
                             'actions' => ['update'],
-                            'roles' => ['admin', 'editor', 'user'],
+                            'roles' => ['admin', 'updateDocuments'],
                         ],
                         [
                             'allow' => true,
@@ -77,57 +77,57 @@ class DocumentController extends Controller
                         [
                             'allow' => true,
                             'actions' => ['upload'],
-                            'roles' => ['admin', 'editor'],
+                            'roles' => ['admin', 'updateDocuments'],
                         ],
                         [
                             'allow' => true,
                             'actions' => ['download'],
-                            'roles' => ['admin', 'user', 'editor'],
+                            'roles' => ['admin', 'viewDocuments'],
                         ],
                         [
                             'allow' => true,
                             'actions' => ['file-delete'],
-                            'roles' => ['admin', 'editor'],
+                            'roles' => ['admin', 'updateDocuments'],
                         ],
                         [
                             'allow' => true,
                             'actions' => ['viewed'],
-                            'roles' => ['admin', 'user', 'editor'],
+                            'roles' => ['admin', 'viewDocuments'],
                         ],
                         [
                             'allow' => true,
                             'actions' => ['publish'],
-                            'roles' => ['admin', 'editor'],
+                            'roles' => ['admin', 'createDocuments'],
                         ],
                         [
                             'allow' => true,
                             'actions' => ['document-list'],
-                            'roles' => ['admin', 'editor'],
+                            'roles' => ['admin', 'viewDocuments'],
                         ],
                         [
                             'allow' => true,
                             'actions' => ['add-task'],
-                            'roles' => ['admin', 'editor'],
+                            'roles' => ['admin', 'createTasks'],
                         ],
                         [
                             'allow' => true,
                             'actions' => ['task-delete'],
-                            'roles' => ['admin', 'editor'],
+                            'roles' => ['admin', 'updateTasks'],
                         ],
                         [
                             'allow' => true,
                             'actions' => ['favourites'],
-                            'roles' => ['admin', 'editor', 'user'],
+                            'roles' => ['admin', 'viewDocuments'],
                         ],
                         [
                             'allow' => true,
                             'actions' => ['discussion-create'],
-                            'roles' => ['admin', 'editor', 'user'],
+                            'roles' => ['admin', 'viewDocuments'],
                         ],
                         [
                             'allow' => true,
                             'actions' => ['discussion-delete'],
-                            'roles' => ['admin', 'editor', 'user'],
+                            'roles' => ['admin', 'viewDocuments'],
                         ],
                     ],
                 ],
@@ -470,8 +470,8 @@ class DocumentController extends Controller
         $view = new View();
         $user_id = Yii::$app->user->identity->id;
 
-        if(is_array($model->resolution)){
-            if(in_array($user_id, $model->resolution) or $model->executor_id == $user_id){
+        if(is_array($model->resolution) or $model->executor_id){
+            if(in_array($user_id, $model->resolution) or ($user_id == $model->executor_id)){
                 $view->type = 'document';
                 $view->user_id = $user_id;
                 $view->record_id = (int) $id;

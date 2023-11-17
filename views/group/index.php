@@ -14,7 +14,7 @@ use yii\widgets\Pjax;
 $this->title = 'Группы';
 $this->params['breadcrumbs'][] = $this->title;
 $this->params['buttons'] = [
-    'create' => Html::a('<i class="fas fa-plus-circle text-success"></i>Добавить', ['create'], ['class' => 'btn btn-app']),
+    'create' => (Yii::$app->user->can('admin') or Yii::$app->user->can('createGroups')) ? Html::a('<i class="fas fa-plus-circle text-success"></i>Добавить', ['create'], ['class' => 'btn btn-app']) : null,
     'filter' => Html::a('<i class="fas fa-filter text-dark"></i>Фильтр', '#', ['class' => 'btn btn-app', 'data-toggle' => 'modal', 'data-target' => '#filter']),
 ];
 ?>

@@ -1,6 +1,6 @@
 <?php
 
-use app\models\Employee;
+use app\models\AuthItem;
 use yii\bootstrap4\Modal;
 use yii\helpers\Html;
 use yii\grid\GridView;
@@ -8,13 +8,13 @@ use yii\widgets\ListView;
 use yii\widgets\Pjax;
 
 /** @var yii\web\View $this */
-/** @var app\models\EmployeeSearch $searchModel */
+/** @var app\models\AuthItemSearch $searchModel */
 /** @var yii\data\ActiveDataProvider $dataProvider */
 
-$this->title = 'Сотрудники';
+$this->title = 'Роли';
 $this->params['breadcrumbs'][] = $this->title;
 $this->params['buttons'] = [
-    'create' => (Yii::$app->user->can('admin') or Yii::$app->user->can('createEmployees')) ? Html::a('<i class="fas fa-plus-circle text-success"></i>Добавить', ['create'], ['class' => 'btn btn-app']) : null,
+    'create' => Html::a('<i class="fas fa-plus-circle text-success"></i>Добавить', ['create'], ['class' => 'btn btn-app']),
     'filter' => Html::a('<i class="fas fa-filter text-dark"></i>Фильтр', '#', ['class' => 'btn btn-app', 'data-toggle' => 'modal', 'data-target' => '#filter']),
 ];
 ?>
@@ -31,7 +31,7 @@ $this->params['buttons'] = [
                 'itemOptions' => [
                     'tag' => false,
                 ],
-                'itemView' => '_list_employee',
+                'itemView' => '_list_auth_item',
                 'viewParams' => [
                     'page_size' => $dataProvider->pagination->pageSize,
                     'current_page' => (int) is_numeric(Yii::$app->request->get('page')) ? Yii::$app->request->get('page') : 0
@@ -60,57 +60,31 @@ $this->params['buttons'] = [
                                 'contentOptions' => ['style' => 'text-align: center !important; vertical-align: middle !important; white-space: nowrap']
                             ],
                             [
-                                'attribute' => 'last_name',
-                                'options' => ['width' => '20%'],
+                                'attribute' => 'description',
+                                'options' => ['width' => '80%'],
                                 'format' => 'raw',
                                 'headerOptions' => ['style' => 'vertical-align: middle !important; min-width:200px; white-space: nowrap'],
                                 'contentOptions' => ['style' => 'vertical-align: middle !important; min-width:200px'],
                                 'value' => function ($model) {
-                                    return Html::a($model->last_name, ['employee/view', 'id' => $model->id], ['data-pjax' => 0]);
+                                    return Html::a($model->description, ['auth-item/view', 'name' => $model->name], ['data-pjax' => 0]);
                                 }
                             ],
                             [
-                                'attribute' => 'first_name',
-                                'options' => ['width' => '20%'],
-                                'format' => 'raw',
-                                'headerOptions' => ['style' => 'vertical-align: middle !important; min-width:200px; white-space: nowrap'],
-                                'contentOptions' => ['style' => 'vertical-align: middle !important; min-width:200px'],
-                                'value' => function ($model) {
-                                    return Html::a($model->first_name, ['employee/view', 'id' => $model->id], ['data-pjax' => 0]);
-                                }
-                            ],
-                            [
-                                'attribute' => 'middle_name',
-                                'options' => ['width' => '20%'],
-                                'format' => 'raw',
-                                'headerOptions' => ['style' => 'vertical-align: middle !important; min-width:200px; white-space: nowrap'],
-                                'contentOptions' => ['style' => 'vertical-align: middle !important; min-width:200px'],
-                                'value' => function ($model) {
-                                    return Html::a($model->middle_name, ['employee/view', 'id' => $model->id], ['data-pjax' => 0]);
-                                }
-                            ],
-                            [
-                                'attribute' => 'position_name',
-                                'headerOptions' => ['style' => 'vertical-align: middle !important; min-width:200px; white-space: nowrap'],
-                                'contentOptions' => ['style' => 'vertical-align: middle !important; min-width:200px'],
-                                'options' => ['width' => '25%'],
-                            ],
-                            [
-                                'filter' => Employee::getStatusesArray(),
+                                'filter' => AuthItem::getStatusesArray(),
                                 'attribute' => 'status',
-                                'options' => ['width' => '15%'],
+                                'options' => ['width' => '20%'],
                                 'headerOptions' => ['style' => 'text-align: center !important; vertical-align: middle !important; min-width:150px; white-space: nowrap'],
                                 'contentOptions' => ['style' => 'text-align: center !important; vertical-align: middle !important; min-width:150px;'],
                                 'format' => 'raw',
                                 'value' => function ($model, $key, $index, $column) {
-                                    /** @var Employee $model */
+                                    /** @var AuthItem $model */
                                     /** @var \yii\grid\DataColumn $column */
                                     $value = $model->{$column->attribute};
                                     switch ($value) {
-                                        case Employee::STATUS_ACTIVE:
+                                        case AuthItem::STATUS_ACTIVE:
                                             $class = 'success';
                                             break;
-                                        case Employee::STATUS_INACTIVE:
+                                        case AuthItem::STATUS_INACTIVE:
                                             $class = 'danger';
                                             break;
                                         default:

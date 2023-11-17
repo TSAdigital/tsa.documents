@@ -46,22 +46,22 @@ class TaskController extends Controller
                         [
                             'allow' => true,
                             'actions' => ['index'],
-                            'roles' => ['admin', 'user', 'editor'],
+                            'roles' => ['admin', 'viewTasks'],
                         ],
                         [
                             'allow' => true,
                             'actions' => ['view'],
-                            'roles' => ['admin', 'user', 'editor'],
+                            'roles' => ['admin', 'viewTasks'],
                         ],
                         [
                             'allow' => true,
                             'actions' => ['create'],
-                            'roles' => ['admin', 'editor'],
+                            'roles' => ['admin', 'createTasks'],
                         ],
                         [
                             'allow' => true,
                             'actions' => ['update'],
-                            'roles' => ['admin', 'editor', 'user'],
+                            'roles' => ['admin', 'updateTasks'],
                         ],
                         [
                             'allow' => true,
@@ -71,42 +71,42 @@ class TaskController extends Controller
                         [
                             'allow' => true,
                             'actions' => ['viewed'],
-                            'roles' => ['admin', 'user', 'editor'],
+                            'roles' => ['admin', 'viewTasks'],
                         ],
                         [
                             'allow' => true,
                             'actions' => ['publish'],
-                            'roles' => ['admin', 'editor'],
+                            'roles' => ['admin', 'createTasks'],
                         ],
                         [
                             'allow' => true,
                             'actions' => ['add-document'],
-                            'roles' => ['admin', 'editor'],
+                            'roles' => ['admin', 'createTasks'],
                         ],
                         [
                             'allow' => true,
                             'actions' => ['document-delete'],
-                            'roles' => ['admin', 'editor'],
+                            'roles' => ['admin', 'updateDocuments'],
                         ],
                         [
                             'allow' => true,
                             'actions' => ['task-list'],
-                            'roles' => ['admin', 'editor'],
+                            'roles' => ['admin', 'viewTasks'],
                         ],
                         [
                             'allow' => true,
                             'actions' => ['favourites'],
-                            'roles' => ['admin', 'editor', 'user'],
+                            'roles' => ['admin', 'viewTasks'],
                         ],
                         [
                             'allow' => true,
                             'actions' => ['discussion-create'],
-                            'roles' => ['admin', 'editor', 'user'],
+                            'roles' => ['admin', 'viewTasks'],
                         ],
                         [
                             'allow' => true,
                             'actions' => ['discussion-delete'],
-                            'roles' => ['admin', 'editor', 'user'],
+                            'roles' => ['admin', 'viewTasks'],
                         ],
                     ],
                 ],
@@ -318,8 +318,8 @@ class TaskController extends Controller
         $view = new View();
         $user_id = Yii::$app->user->identity->id;
 
-        if(is_array($model->resolution)){
-            if(in_array($user_id, $model->resolution)){
+        if(is_array($model->resolution) or $model->executor_id){
+            if(in_array($user_id, $model->resolution) or ($user_id == $model->executor_id)){
                 $view->type = 'task';
                 $view->user_id = $user_id;
                 $view->record_id = (int) $id;

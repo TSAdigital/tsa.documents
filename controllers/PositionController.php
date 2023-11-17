@@ -34,22 +34,22 @@ class PositionController extends Controller
                         [
                             'allow' => true,
                             'actions' => ['index'],
-                            'roles' => ['admin'],
+                            'roles' => ['admin', 'viewPositions'],
                         ],
                         [
                             'allow' => true,
                             'actions' => ['view'],
-                            'roles' => ['admin'],
+                            'roles' => ['admin', 'viewPositions'],
                         ],
                         [
                             'allow' => true,
                             'actions' => ['create'],
-                            'roles' => ['admin'],
+                            'roles' => ['admin', 'createPositions'],
                         ],
                         [
                             'allow' => true,
                             'actions' => ['update'],
-                            'roles' => ['admin'],
+                            'roles' => ['admin', 'updatePositions'],
                         ],
                         [
                             'allow' => true,
