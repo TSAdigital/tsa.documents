@@ -34,22 +34,22 @@ class EmployeeController extends Controller
                         [
                             'allow' => true,
                             'actions' => ['index'],
-                            'roles' => ['admin'],
+                            'roles' => ['admin', 'viewEmployees'],
                         ],
                         [
                             'allow' => true,
                             'actions' => ['view'],
-                            'roles' => ['admin'],
+                            'roles' => ['admin', 'viewEmployees'],
                         ],
                         [
                             'allow' => true,
                             'actions' => ['create'],
-                            'roles' => ['admin'],
+                            'roles' => ['admin', 'createEmployees'],
                         ],
                         [
                             'allow' => true,
                             'actions' => ['update'],
-                            'roles' => ['admin'],
+                            'roles' => ['admin', 'updateEmployees'],
                         ],
                         [
                             'allow' => true,

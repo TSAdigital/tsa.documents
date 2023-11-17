@@ -31,7 +31,9 @@ $this->params['breadcrumbs'][] = 'Личный кабинет';
                     <p class="text-muted text-center mb-0"><?= HtmlPurifier::process(Yii::$app->formatter->asEmail($user->email)) ?></p>
                 </div>
             </div>
+
             <div class="accordion" id="accordionAccount">
+                <?php if(Yii::$app->user->can('viewDocuments') or Yii::$app->user->can('admin')): ?>
                 <div class="card">
                     <div class="card-header p-2" id="headingOne">
                         <h2 class="mb-0">
@@ -116,6 +118,8 @@ $this->params['breadcrumbs'][] = 'Личный кабинет';
                         </div>
                     </div>
                 </div>
+                <?php endif; ?>
+                <?php if(Yii::$app->user->can('viewTasks') or Yii::$app->user->can('admin')): ?>
                 <div class="card">
                     <div class="card-header p-2" id="headingTwo">
                         <h2 class="mb-0">
@@ -135,6 +139,27 @@ $this->params['breadcrumbs'][] = 'Личный кабинет';
                             <div class="card-body">
                                 <div class="tab-content">
                                     <div class="tab-pane active" id="task-new">
+
+                                        <?php
+                                        $template = '
+                                                {summary}  
+                                                <div class="table-responsive">
+                                                <table class="table table-striped table-bordered mb-0">
+                                                <thead>
+                                                    <tr>
+                                                        <th scope="col">#</th>
+                                                        <th scope="col" class="col-7 col-md-8 col-lg-9" style="white-space: nowrap">Наименование</th>
+                                                        <th scope="col" class="col-5 col-md-4 col-lg-3" style="text-align: center; white-space: nowrap">Дата</th>                                                                                                  
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    {items}
+                                                </tbody>
+                                                </table>
+                                                </div>
+                                                {pager}
+                                            ';
+                                        ?>
 
                                         <?= ListView::widget([
                                             'dataProvider' => $new_task,
@@ -180,7 +205,9 @@ $this->params['breadcrumbs'][] = 'Личный кабинет';
                         </div>
                     </div>
                 </div>
+                <?php endif; ?>
             </div>
+
         </div>
         <div class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6">
 

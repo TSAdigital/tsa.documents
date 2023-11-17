@@ -34,22 +34,22 @@ class DocumentTypeController extends Controller
                         [
                             'allow' => true,
                             'actions' => ['index'],
-                            'roles' => ['admin'],
+                            'roles' => ['admin', 'viewDocumentsType'],
                         ],
                         [
                             'allow' => true,
                             'actions' => ['view'],
-                            'roles' => ['admin'],
+                            'roles' => ['admin', 'viewDocumentsType'],
                         ],
                         [
                             'allow' => true,
                             'actions' => ['create'],
-                            'roles' => ['admin'],
+                            'roles' => ['admin', 'createDocumentsType'],
                         ],
                         [
                             'allow' => true,
                             'actions' => ['update'],
-                            'roles' => ['admin'],
+                            'roles' => ['admin', 'updateDocumentsType'],
                         ],
                         [
                             'allow' => true,

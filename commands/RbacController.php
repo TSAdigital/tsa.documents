@@ -25,4 +25,13 @@ class RbacController extends Controller
         $auth->assign($admin, 1);
     }
 
+    public function actionChild()
+    {
+        $auth = Yii::$app->authManager;
+
+        $role = $auth->getRole('sekretar');
+        $permission = $auth->getPermission('manageDocument');
+        $auth->addChild($role, $permission);
+    }
+
 }

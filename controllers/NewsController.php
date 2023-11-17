@@ -7,6 +7,7 @@ use app\models\NewsSearch;
 use Yii;
 use yii\filters\AccessControl;
 use yii\web\Controller;
+use yii\web\ForbiddenHttpException;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
@@ -35,22 +36,22 @@ class NewsController extends Controller
                         [
                             'allow' => true,
                             'actions' => ['index'],
-                            'roles' => ['admin'],
+                            'roles' => ['admin', 'viewNews'],
                         ],
                         [
                             'allow' => true,
                             'actions' => ['view'],
-                            'roles' => ['admin'],
+                            'roles' => ['admin', 'viewNews'],
                         ],
                         [
                             'allow' => true,
                             'actions' => ['create'],
-                            'roles' => ['admin'],
+                            'roles' => ['admin', 'createNews'],
                         ],
                         [
                             'allow' => true,
                             'actions' => ['update'],
-                            'roles' => ['admin'],
+                            'roles' => ['admin', 'updateNews'],
                         ],
                         [
                             'allow' => true,
@@ -128,8 +129,12 @@ class NewsController extends Controller
     {
         $model = $this->findModel($id);
 
-        if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        if(Yii::$app->user->can('admin') or $model->user_id == Yii::$app->user->identity->id){
+            if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
+                return $this->redirect(['view', 'id' => $model->id]);
+            }
+        }else{
+            throw new ForbiddenHttpException('Вам не разрешено производить данное действие.');
         }
 
         return $this->render('update', [

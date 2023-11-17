@@ -31,7 +31,7 @@ class SiteController extends Controller
                     [
                         'actions' => ['logout', 'index', 'about', 'profile'],
                         'allow' => true,
-                        'roles' => ['user', 'editor', 'admin'],
+                        'roles' => ['@'],
                     ],
                 ],
             ],
@@ -68,7 +68,7 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        return $this->redirect(['document/index']);
+        return $this->redirect(['site/account']);
     }
 
     /**

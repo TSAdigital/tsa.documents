@@ -207,7 +207,7 @@ class User extends ActiveRecord implements IdentityInterface
      */
     public static function getRolesDropdown()
     {
-        return ArrayHelper::map(AuthItem::find()->where(['type' => 1])->all(), 'name', 'description');
+        return ArrayHelper::map(AuthItem::find()->where(['type' => 1, 'status' => 10])->all(), 'name', 'description');
     }
 
     /**
