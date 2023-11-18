@@ -8,6 +8,7 @@ use app\models\News;
 use app\models\Task;
 use app\models\TaskFavourites;
 use app\models\User;
+use hosannahighertech\calendar\models\Event;
 use Yii;
 use yii\data\ActiveDataProvider;
 use yii\filters\AccessControl;
@@ -223,6 +224,22 @@ class SiteController extends Controller
             ],
         ]);
 
+
+        $events = [];
+
+        $items = [
+            [
+                'id' => 1,
+                'title' => 'Хорошего дня!',
+                'start' => date('Y-m-d'),
+            ],
+        ];
+
+        foreach ($items as $item) {
+            $events[] = new Event($item);
+        }
+
+
         return $this->render('account', [
             'user' => $user,
             'document_favourites' => $document_favourites,
@@ -232,6 +249,7 @@ class SiteController extends Controller
             'documents_count' => $documents->count(),
             'tasks_count' => $tasks->count(),
             'news' => $news,
+            'events' => $events,
         ]);
     }
 }

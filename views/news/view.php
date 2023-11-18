@@ -30,22 +30,22 @@ $this->params['buttons'] = [
                     <table class="table table-striped table-bordered mb-0">
                         <tbody>
                         <tr>
-                            <td><p class="mb-0"><b>Тема: </b><?= Html::encode($model->title) ?></p></td>
+                            <td><p class="mb-0"><b><?= $model->getAttributeLabel('title') ?>: </b><?= Html::encode($model->title) ?></p></td>
                         </tr>
                         <tr>
-                            <td><p class="mb-0"><b>Текст: </b><?= Yii::$app->formatter->asNtext($model->text) ?></p></td>
+                            <td><p class="mb-0"><b><?= $model->getAttributeLabel('text') ?>: </b><?= Yii::$app->formatter->asNtext($model->text) ?></p></td>
                         </tr>
                         <tr>
-                            <td><p class="mb-0"><b>Автор: </b><?= Yii::$app->formatter->asNtext($model->user->getEmployee_name()) ?></p></td>
+                            <td><p class="mb-0"><b><?= $model->getAttributeLabel('user_id') ?>: </b><?= Html::a(Html::encode(isset($model->user->employee) ? Html::encode($model->user->employee->employeeFullName) : Html::encode($model->user->username)), ['site/profile', 'id' => $model->user_id], ['data-pjax' => 0]) ?></p></td>
                         </tr>
                         <tr>
-                            <td><p class="mb-0"><b>Статус: </b><?= Html::encode($model->getStatusName()) ?></p></td>
+                            <td><p class="mb-0"><b><?= $model->getAttributeLabel('status') ?>: </b><?= Html::encode($model->getStatusName()) ?></p></td>
                         </tr>
                         <tr>
-                            <td><p class="mb-0"><b>Запись создана: </b><?= Html::encode(Yii::$app->formatter->asDatetime($model->created_at)) ?></p></td>
+                            <td><p class="mb-0"><b><?= $model->getAttributeLabel('created_at') ?>: </b><?= Html::encode(Yii::$app->formatter->asDatetime($model->created_at)) ?></p></td>
                         </tr>
                         <tr>
-                            <td><p class="mb-0"><b>Запись обновлена: </b><?= Html::encode(Yii::$app->formatter->asDatetime($model->updated_at)) ?></p></td>
+                            <td><p class="mb-0"><b><?= $model->getAttributeLabel('updated_at') ?>: </b><?= Html::encode(Yii::$app->formatter->asDatetime($model->updated_at)) ?></p></td>
                         </tr>
                         </tbody>
                     </table>
@@ -66,7 +66,8 @@ $this->params['buttons'] = [
                                 ],
                                 [
                                     'attribute' => 'user_id',
-                                    'value' => $model->user->getEmployee_name(),
+                                    'format' => 'raw',
+                                    'value' => Html::a(Html::encode(isset($model->user->employee) ? Html::encode($model->user->employee->employeeFullName) : Html::encode($model->user->username)), ['site/profile', 'id' => $model->user_id], ['data-pjax' => 0]),
                                 ],
                                 [
                                     'attribute' => 'status',

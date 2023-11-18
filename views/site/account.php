@@ -10,7 +10,9 @@
 
 /* @var integer $documents_count */
 /* @var integer $tasks_count */
+/* @var array $events */
 
+use hosannahighertech\calendar\Calendar;
 use yii\helpers\HtmlPurifier;
 use yii\widgets\ListView;
 
@@ -20,7 +22,7 @@ $this->params['breadcrumbs'][] = 'Личный кабинет';
 
 <div class="container-fluid">
     <div class="row">
-        <div class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6">
+        <div class="col-12 col-sm-12 col-md-12 col-lg-5 col-xl-5">
             <div class="card card-primary card-outline">
                 <div class="card-body box-profile">
                     <div class="text-center">
@@ -31,8 +33,63 @@ $this->params['breadcrumbs'][] = 'Личный кабинет';
                     <p class="text-muted text-center mb-0"><?= HtmlPurifier::process(Yii::$app->formatter->asEmail($user->email)) ?></p>
                 </div>
             </div>
-
             <div class="accordion" id="accordionAccount">
+                <div class="card">
+                    <div class="card-header p-2" id="headingThree">
+                        <h2 class="mb-0">
+                            <button class="btn btn-link btn-block text-left collapsed" type="button" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                                Новости и объявления <span class="badge badge-danger text-bold"><?= ($tasks_count > 0) ? $tasks_count : false ?></span>
+                            </button>
+                        </h2>
+                    </div>
+                    <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionAccount">
+                        <div class="card-body p-1">
+                            <div class="card-body">
+                                <div class="tab-content">
+
+                                    <?php
+                                    $template = '
+                                                {summary}  
+                                                <div class="table-responsive">
+                                                <table class="table table-striped table-bordered mb-0">
+                                                <thead>
+                                                    <tr>
+                                                        <th scope="col">#</th>
+                                                        <th scope="col" class="col-7 col-md-8 col-lg-9" style="white-space: nowrap">Наименование</th>
+                                                        <th scope="col" class="col-5 col-md-4 col-lg-3" style="text-align: center; white-space: nowrap">Дата</th>                                                                                                  
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    {items}
+                                                </tbody>
+                                                </table>
+                                                </div>
+                                                {pager}
+                                            ';
+                                    ?>
+
+                                    <?= ListView::widget([
+                                        'dataProvider' => $news,
+                                        'layout' => $template,
+                                        'emptyText' => 'Новости еще не добавляли.',
+                                        'viewParams' => [
+                                            'page_size' => $news->pagination->pageSize,
+                                            'current_page' => (int) is_numeric(Yii::$app->request->get('page-news')) ? Yii::$app->request->get('page-news') : 0
+                                        ],
+                                        'itemView' => '_list-news',
+                                        'pager' => [
+                                            'options' => [
+                                                'id' => 'list-viewed-pagination',
+                                            ]
+                                        ],
+                                    ]);
+                                    ?>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <?php if(Yii::$app->user->can('viewDocuments') or Yii::$app->user->can('admin')): ?>
                 <div class="card">
                     <div class="card-header p-2" id="headingOne">
@@ -207,39 +264,16 @@ $this->params['breadcrumbs'][] = 'Личный кабинет';
                 </div>
                 <?php endif; ?>
             </div>
-
         </div>
-        <div class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6">
-
-            <div class="card">
-                <div class="card-header p-2">
-                    <ul class="nav nav-pills">
-                        <li class="nav-item"><a class="nav-link active" href="#news" data-toggle="tab">Новости и объявления</a></li>
-                    </ul>
-                </div>
-                <div class="card-body">
-                    <div class="tab-content">
-                        <div class="active tab-pane" id="news">
-
-                            <?= ListView::widget([
-                                'dataProvider' => $news,
-                                //'layout' => $template,
-                                'emptyText' => 'Новости еще не добавляли.',
-                                'viewParams' => [
-                                    'page_size' => $news->pagination->pageSize,
-                                    'current_page' => (int) is_numeric(Yii::$app->request->get('page-news')) ? Yii::$app->request->get('page-news') : 0
-                                ],
-                                'itemView' => '_list-news',
-                                'pager' => [
-                                    'options' => [
-                                        'id' => 'list-viewed-pagination',
-                                    ]
-                                ],
-                            ]);
-                            ?>
-
-                        </div>
-                    </div>
+        <div class="col-12 col-sm-12 col-md-12 col-lg-7 col-xl-7">
+            <div class="card card-primary card-outline d-none d-md-block">
+                <div class="card-body box-profile">
+                    <?= Calendar::widget([
+                        'options' => [
+                            'lang' => 'ru',
+                        ],
+                        'events' => $events
+                    ]) ?>
                 </div>
             </div>
         </div>

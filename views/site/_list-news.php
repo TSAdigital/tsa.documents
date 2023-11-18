@@ -9,16 +9,14 @@
 
 use yii\bootstrap4\Modal;
 use yii\helpers\Html;
-use yii\helpers\StringHelper;
 
 ?>
-<div class="card mt-3 mb-0">
-    <div class="card-body">
-        <p class="small mb-0"><?= Html::encode(Yii::$app->formatter->asDatetime($model->created_at)) ?></p>
-        <p class="h5 mb-0"><?= Html::a(Html::encode($model->title), '#', ['data-pjax' => 0, 'data-toggle' => 'modal', 'data-target' => '#news-' . $model->id]) ?></p>
-        <p class="mb-0"><?= StringHelper::truncate(Yii::$app->formatter->asNtext($model->text), 100); ?></p>
-    </div>
-</div>
+
+<tr>
+    <th scope="row" style="text-align: center !important; vertical-align: middle; white-space: nowrap;"><?= ++$index + ($current_page > 0 ? ($current_page - 1) * $page_size : 0) ?></th>
+    <td style="vertical-align: middle;"><?= Html::a(Html::encode($model->title), '#', ['data-pjax' => 0, 'data-toggle' => 'modal', 'data-target' => '#news-' . $model->id]) ?></td>
+    <td style="vertical-align: middle; text-align: center; white-space: nowrap"><?= Html::encode(Yii::$app->formatter->asDate($model->created_at)) ?></td>
+</tr>
 
 <?php
 Modal::begin([
@@ -34,7 +32,7 @@ Modal::begin([
 ]);
 ?>
 
-<p class="small mb-2"><?= Html::encode(Yii::$app->formatter->asDatetime($model->created_at)) ?> / <?= Yii::$app->formatter->asNtext($model->user->getEmployee_name()) ?></p>
+<p class="mb-2"><?= Html::encode(Yii::$app->formatter->asDatetime($model->created_at)) ?> / <?= Yii::$app->formatter->asNtext($model->user->getEmployee_name()) ?></p>
 <?= Yii::$app->formatter->asNtext($model->text) ?>
 
 <?php Modal::end(); ?>

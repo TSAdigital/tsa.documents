@@ -96,7 +96,7 @@ $this->params['buttons'] = [
                                         <td><p class="mb-0"><b><?= $model->getAttributeLabel('type') ?>: </b><?= Html::encode($model->type0->name) ?></p></td>
                                     </tr>
                                     <tr>
-                                        <td><p class="mb-0"><b><?= $model->getAttributeLabel('user_id') ?>: </b><?= Html::encode(isset($model->user->employee) ? Html::encode($model->user->employee->employeeFullName) : Html::encode($model->user->username)) ?></p></td>
+                                        <td><p class="mb-0"><b><?= $model->getAttributeLabel('user_id') ?>: </b><?= Html::a(Html::encode(isset($model->user->employee) ? Html::encode($model->user->employee->employeeFullName) : Html::encode($model->user->username)), ['site/profile', 'id' => $model->user_id], ['data-pjax' => 0]) ?></p></td>
                                     </tr>
                                     <?php if(!empty($model->executor_id)) : ?>
                                         <tr>
