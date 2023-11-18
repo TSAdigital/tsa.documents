@@ -272,6 +272,11 @@ $this->params['breadcrumbs'][] = 'Личный кабинет';
                         'options' => [
                             'lang' => 'ru',
                         ],
+                        'header' => [
+                            'center' => 'title',
+                            'left' => 'prev,next today',
+                            'right' => 'month,agendaWeek,agendaDay',
+                        ],
                         'events' => $events
                     ]) ?>
                 </div>

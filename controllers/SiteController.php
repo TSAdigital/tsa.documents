@@ -232,6 +232,7 @@ class SiteController extends Controller
                 'id' => 1,
                 'title' => 'Хорошего дня!',
                 'start' => date('Y-m-d'),
+                'color' => '#28a745',
             ],
         ];
 
