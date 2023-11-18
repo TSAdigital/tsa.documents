@@ -193,7 +193,7 @@ class AuthItemController extends Controller
      */
     protected function findModel($name)
     {
-        if (($model = AuthItem::findOne(['name' => $name])) !== null) {
+        if (($model = AuthItem::findOne(['name' => $name])) !== null and AuthItem::findOne(['name' => $name])->name !== 'admin') {
             return $model;
         }
 

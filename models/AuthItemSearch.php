@@ -43,7 +43,7 @@ class AuthItemSearch extends AuthItem
      */
     public function search($params)
     {
-        $query = AuthItem::find()->where(['type' => 1]);
+        $query = AuthItem::find()->where(['type' => 1])->andWhere(['!=', 'name', 'admin']);
 
         // add conditions that should always apply here
 
