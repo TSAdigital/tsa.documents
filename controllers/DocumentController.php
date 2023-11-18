@@ -470,7 +470,7 @@ class DocumentController extends Controller
         $view = new View();
         $user_id = Yii::$app->user->identity->id;
 
-        if(is_array($model->resolution) or $model->executor_id){
+        if(is_array($model->resolution) or $user_id == $model->executor_id){
             if(in_array($user_id, $model->resolution) or ($user_id == $model->executor_id)){
                 $view->type = 'document';
                 $view->user_id = $user_id;
