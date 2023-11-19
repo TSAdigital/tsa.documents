@@ -272,6 +272,9 @@ $this->params['breadcrumbs'][] = 'Личный кабинет';
                         'options' => [
                             'lang' => 'ru',
                         ],
+                        'clientOptions' => [
+                            'timeFormat' => 'H:mm',
+                        ],
                         'header' => [
                             'center' => 'title',
                             'left' => 'prev,next today',
