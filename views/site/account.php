@@ -42,7 +42,7 @@ $this->params['breadcrumbs'][] = 'Личный кабинет';
                             </button>
                         </h2>
                     </div>
-                    <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionAccount">
+                    <div id="collapseThree" class="collapse show" aria-labelledby="headingThree" data-parent="#accordionAccount">
                         <div class="card-body p-1">
                             <div class="card-body">
                                 <div class="tab-content">
@@ -99,7 +99,7 @@ $this->params['breadcrumbs'][] = 'Личный кабинет';
                             </button>
                         </h2>
                     </div>
-                    <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionAccount">
+                    <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordionAccount">
                         <div class="card-body p-1">
                             <div class="card-header p-2">
                                 <ul class="nav nav-pills ">
@@ -274,6 +274,8 @@ $this->params['breadcrumbs'][] = 'Личный кабинет';
                         ],
                         'clientOptions' => [
                             'timeFormat' => 'H:mm',
+                            'weekNumbers' => true,
+                            'selectable'  => true,
                         ],
                         'header' => [
                             'center' => 'title',
