@@ -12,6 +12,7 @@ use hosannahighertech\calendar\models\Event;
 use Yii;
 use yii\data\ActiveDataProvider;
 use yii\filters\AccessControl;
+use yii\helpers\Url;
 use yii\web\Controller;
 use yii\web\Response;
 use yii\filters\VerbFilter;
@@ -226,15 +227,21 @@ class SiteController extends Controller
 
 
         $events = [];
+        $items = [];
 
-        $items = [
-            [
-                'id' => 1,
-                'title' => 'Хорошего дня!',
-                'start' => date('Y-m-d'),
-                'color' => '#28a745',
-            ],
-        ];
+        $user_id = Yii::$app->user->identity->id;
+        $data = \app\models\Event::find()->where(['like', 'resolution', sprintf('"%s"', $user_id)])->andWhere(['status' => \app\models\Event::STATUS_ACTIVE])->orWhere(['resolution' => NULL])->andWhere(['status' => \app\models\Event::STATUS_ACTIVE])->all();
+
+        foreach ($data as $value){
+            $items[]  = [
+                'id' => $value->id,
+                'title' => $value->name,
+                'url' => Url::to(['event/view', 'id' => $value->id]),
+                'start' => (date('H:i', strtotime($value->start)) != '00:00') ? date('Y-m-d H:i', strtotime($value->start)) : date('Y-m-d', strtotime($value->start)),
+                'end' => (date('H:i', strtotime($value->end)) != '00:00') ? date('Y-m-d H:i', strtotime($value->end)) : date('Y-m-d', strtotime($value->end)),
+                'color' => $value->color,
+            ];
+        }
 
         foreach ($items as $item) {
             $events[] = new Event($item);

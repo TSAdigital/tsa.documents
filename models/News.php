@@ -2,8 +2,8 @@
 
 namespace app\models;
 
-use Yii;
 use yii\behaviors\TimestampBehavior;
+use yii\db\ActiveRecord;
 use yii\helpers\ArrayHelper;
 
 /**
@@ -19,7 +19,7 @@ use yii\helpers\ArrayHelper;
  *
  * @property User $user
  */
-class News extends \yii\db\ActiveRecord
+class News extends ActiveRecord
 {
     const STATUS_INACTIVE = 9;
     const STATUS_ACTIVE = 10;

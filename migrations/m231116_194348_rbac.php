@@ -98,8 +98,8 @@ class m231116_194348_rbac extends Migration
         $updateDocumentsType->description = 'Редактировать типы документов';
         $auth->add($updateDocumentsType);
 
-        $editor = $auth->createRole('editor');
-        $user = $auth->createRole('user');
+        $editor = $auth->getRole('editor');
+        $user = $auth->getRole('user');
 
         $auth->addChild($editor, $viewDocument);
         $auth->addChild($editor, $createDocument);
