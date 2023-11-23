@@ -31,7 +31,7 @@ $this->params['buttons'] = [
                         <tr>
                             <td><p class="mb-0"><b><?= $model->getAttributeLabel('name') ?>: </b><?= Html::encode($model->name) ?></p></td>
                         </tr>
-                        <?php if($model->end): ?>
+                        <?php if($model->description): ?>
                         <tr>
                             <td><p class="mb-0"><b><?= $model->getAttributeLabel('description') ?>: </b><?= Yii::$app->formatter->asNtext($model->description) ?></p></td>
                         </tr>
