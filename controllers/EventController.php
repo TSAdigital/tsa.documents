@@ -4,7 +4,9 @@ namespace app\controllers;
 
 use app\models\Event;
 use app\models\EventSearch;
+use app\models\Group;
 use Yii;
+use yii\data\ActiveDataProvider;
 use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\ForbiddenHttpException;
@@ -112,14 +114,16 @@ class EventController extends Controller
     {
         $model = new Event();
 
+        $user_id = Yii::$app->user->identity->id;
+
         if ($this->request->isPost && $model->load($this->request->post())) {
-            $model->user_id = Yii::$app->user->identity->id;
+            $model->user_id = $user_id;
 
             if($model->resolution == NULL){
                 if(Yii::$app->user->can('admin') or Yii::$app->user->can('eventsAdmin')){
                     $model->resolution == NULL;
                 }else{
-                    $model->resolution = [sprintf('%s', Yii::$app->user->identity->id)];
+                    $model->resolution = [sprintf('%s', $user_id)];
                 }
             }
 
@@ -130,8 +134,19 @@ class EventController extends Controller
             $model->loadDefaultValues();
         }
 
+        $groups = new ActiveDataProvider([
+            'query' => Group::find()->where(['status' => Group::STATUS_ACTIVE, 'user_id' => $user_id])->orWhere(['status' => Group::STATUS_ACTIVE, 'visibility' => Group::VISIBILITY_PUBLIC]),
+            'pagination' => [
+                'pageSize' => 10,
+            ],
+            'sort'=> [
+                'defaultOrder' => ['visibility' => SORT_DESC, 'name' => SORT_ASC]
+            ],
+        ]);
+
         return $this->render('create', [
             'model' => $model,
+            'groups' => $groups,
         ]);
     }
 

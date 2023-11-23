@@ -42,7 +42,7 @@ use yii\widgets\ActiveForm;
 <?php if(Yii::$app->user->can('admin') or Yii::$app->user->can('eventsAdmin')) : ?>
 
 <?= $form->field($model, 'resolution')->widget(Select2::class, [
-    'data' => $model->resolution ? ArrayHelper::map(User::find()->joinWith(['employee', 'userRoles'])->where(['user.id' => $model->resolution])->orWhere(['user.status' => 10])->orderBy('employee.last_name ASC')->all(), 'id', 'employee_name') : ArrayHelper::map(User::find()->joinWith(['employee', 'userRoles'])->andWhere(['user.status' => 10])->orderBy('employee.last_name ASC')->all(), 'id', 'employee_name'),
+    'data' => $model->resolution ? ArrayHelper::map(User::find()->joinWith(['employee', 'userRoles'])->where(['user.id' => $model->resolution])->andWhere(['!=', 'auth_assignment.item_name', 'admin'])->orWhere(['user.status' => 10])->andWhere(['!=', 'auth_assignment.item_name', 'admin'])->orderBy('employee.last_name ASC')->all(), 'id', 'employee_name') : ArrayHelper::map(User::find()->joinWith(['employee', 'userRoles'])->andWhere(['user.status' => 10])->andWhere(['!=', 'auth_assignment.item_name', 'admin'])->orderBy('employee.last_name ASC')->all(), 'id', 'employee_name'),
     'theme' => 'krajee-bs3',
     'options' => ['placeholder' => 'Выберите сотрудника...', 'multiple' => true],
 ]) ?>

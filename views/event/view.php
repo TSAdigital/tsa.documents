@@ -29,16 +29,37 @@ $this->params['buttons'] = [
                     <table class="table table-striped table-bordered mb-0">
                         <tbody>
                         <tr>
-                            <td><p class="mb-0"><b>Наименование: </b><?= Html::encode($model->name) ?></p></td>
+                            <td><p class="mb-0"><b><?= $model->getAttributeLabel('name') ?>: </b><?= Html::encode($model->name) ?></p></td>
+                        </tr>
+                        <?php if($model->end): ?>
+                        <tr>
+                            <td><p class="mb-0"><b><?= $model->getAttributeLabel('description') ?>: </b><?= Yii::$app->formatter->asNtext($model->description) ?></p></td>
+                        </tr>
+                        <?php endif; ?>
+                        <tr>
+                            <td><p class="mb-0"><b><?= $model->getAttributeLabel('start') ?>: </b><?= Html::encode($model->start) ?></p></td>
+                        </tr>
+                        <?php if($model->end): ?>
+                        <tr>
+                            <td><p class="mb-0"><b><?= $model->getAttributeLabel('end') ?>: </b><?= Html::encode($model->end) ?></p></td>
+                        </tr>
+                        <?php endif; ?>
+                        <?php if($model->resolution and (Yii::$app->user->can('admin') or Yii::$app->user->can('eventsAdmin'))): ?>
+                        <tr>
+                            <td><p class="mb-0"><b><?= $model->getAttributeLabel('resolution') ?>: </b><?= !empty($model->getUsers($model->resolution)) ? $model->getUsers($model->resolution) : 'Все сотрудники' ?></p></td>
+                        </tr>
+                        <?php endif; ?>
+                        <tr>
+                            <td><p class="mb-0"><b><?= $model->getAttributeLabel('user_id') ?>: </b><?= Html::a(Html::encode(isset($model->user->employee) ? Html::encode($model->user->employee->employeeFullName) : Html::encode($model->user->username)), ['site/profile', 'id' => $model->user_id], ['data-pjax' => 0]) ?></p></td>
                         </tr>
                         <tr>
-                            <td><p class="mb-0"><b>Статус: </b><?= Html::encode($model->getStatusName()) ?></p></td>
+                            <td><p class="mb-0"><b><?= $model->getAttributeLabel('status') ?>: </b><?= Html::encode($model->getStatusName()) ?></p></td>
                         </tr>
                         <tr>
-                            <td><p class="mb-0"><b>Запись создана: </b><?= Html::encode(Yii::$app->formatter->asDatetime($model->created_at)) ?></p></td>
+                            <td><p class="mb-0"><b><?= $model->getAttributeLabel('created_at') ?>: </b><?= Html::encode(Yii::$app->formatter->asDatetime($model->created_at)) ?></p></td>
                         </tr>
                         <tr>
-                            <td><p class="mb-0"><b>Запись обновлена: </b><?= Html::encode(Yii::$app->formatter->asDatetime($model->updated_at)) ?></p></td>
+                            <td><p class="mb-0"><b><?= $model->getAttributeLabel('updated_at') ?>: </b><?= Html::encode(Yii::$app->formatter->asDatetime($model->updated_at)) ?></p></td>
                         </tr>
                         </tbody>
                     </table>
@@ -66,7 +87,7 @@ $this->params['buttons'] = [
                                 [
                                     'attribute' => 'color',
                                     'value' => $model->getColorName(),
-                                    'visible' => !empty($model->color)
+                                    'visible' => false,
                                 ],
                                 [
                                     'attribute' => 'resolution',
