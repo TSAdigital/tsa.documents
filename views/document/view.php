@@ -81,6 +81,11 @@ $this->params['buttons'] = [
                                     <tr>
                                         <td><p class="mb-0"><b><?= $model->getAttributeLabel('name') ?>: </b><?= Html::encode($model->name) ?></p></td>
                                     </tr>
+                                    <?php if(!empty($model->description)) : ?>
+                                        <tr>
+                                            <td><p class="mb-0"><b><?= $model->getAttributeLabel('description') ?>: </b><?= Yii::$app->formatter->asNtext($model->description) ?></p></td>
+                                        </tr>
+                                    <?php endif; ?>
                                     <tr>
                                         <td><p class="mb-0"><b><?= $model->getAttributeLabel('number') ?>: </b><?= Html::encode($model->number) ?></p></td>
                                     </tr>
@@ -137,6 +142,11 @@ $this->params['buttons'] = [
                                             'captionOptions' => ['width' => '170px'],
                                         ],
                                         'name',
+                                        [
+                                            'attribute' => 'description',
+                                            'format' => 'ntext',
+                                            'visible' => !empty($model->description)
+                                        ],
                                         'date',
                                         [
                                             'attribute' => 'validity_period',

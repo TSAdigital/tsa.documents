@@ -18,6 +18,7 @@ use yii\helpers\Json;
  * @property int $id
  * @property string $uniq_id
  * @property string $name
+ * @property string|null $description
  * @property string $number
  * @property string $date
  * @property string $validity_period
@@ -81,6 +82,10 @@ class Document extends ActiveRecord
             ['name', 'filter', 'filter' => '\yii\helpers\HtmlPurifier::process'],
             ['name', 'required'],
 
+            ['description', 'string', 'max' => 1000],
+            ['description', 'trim'],
+            ['description', 'filter', 'filter' => '\yii\helpers\HtmlPurifier::process'],
+
             ['date', 'date'],
             ['date', 'required'],
 
@@ -133,6 +138,7 @@ class Document extends ActiveRecord
             'id' => 'ID',
             'uniq_id' => 'Идентификатор',
             'name' => 'Наименование',
+            'description' => 'Описание',
             'number' => 'Номер',
             'date' => 'Дата',
             'validity_period' => 'Действует до',

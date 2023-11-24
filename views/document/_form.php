@@ -42,6 +42,8 @@ use yii\web\JsExpression;
 
 <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
 
+<?= $form->field($model, 'description')->textarea(['rows' => 6]) ?>
+
 <?= $form->field($model, 'date', ['enableClientValidation' => false])->widget(DatePicker::class, [
     'options' => ['placeholder' => 'Введите дату документа...'],
     'value' => 'dd.mm.yyyy',
