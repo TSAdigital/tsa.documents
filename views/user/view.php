@@ -44,6 +44,11 @@ $this->params['buttons'] = [
                         <tr>
                             <td><p class="mb-0"><b>Роль: </b><?= Html::encode($model->getRolesName()) ?></p></td>
                         </tr>
+                        <?php if(!empty($model->chat_id)) : ?>
+                        <tr>
+                            <td><p class="mb-0"><b><?= $model->getAttributeLabel('chat_id') ?>: </b><?= Html::encode($model->chat_id) ?></p></td>
+                        </tr>
+                        <?php endif; ?>
                         <tr>
                             <td><p class="mb-0"><b>Статус: </b><?= Html::encode($model->getStatusName()) ?></p></td>
                         </tr>
@@ -74,6 +79,10 @@ $this->params['buttons'] = [
                                 [
                                     'attribute' => 'roles',
                                     'value' => $model->getRolesName(),
+                                ],
+                                [
+                                    'attribute' => 'chat_id',
+                                    'visible' => !empty($model->chat_id),
                                 ],
                                 [
                                     'attribute' => 'status',

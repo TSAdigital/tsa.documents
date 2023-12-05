@@ -10,6 +10,7 @@ use app\models\DocumentTask;
 use app\models\Group;
 use app\models\Task;
 use app\models\Upload;
+use app\models\User;
 use app\models\View;
 use Yii;
 use yii\base\Exception;
@@ -503,6 +504,21 @@ class DocumentController extends Controller
         }
 
         if($model->save()){
+            if(is_array($model->resolution) and !empty($model->resolution) and Yii::$app->params['telegram'] === true) {
+                $resolution = $model->resolution;
+                $document_name = $model->name;
+                $author = $model->user->getEmployee_name();
+                $users = User::find()->select('chat_id')->where(['id' => $resolution])->all();
+                foreach ($users as $user){
+                    if(!empty($user->chat_id)){
+                        Yii::$app->telegram->sendMessage([
+                            'chat_id' => $user->chat_id,
+                            'text' => "Опубликован новый документ \nНаименование: $document_name \nАвтор: $author",
+                        ]);
+                    }
+                }
+            }
+
             return $this->redirect(['view', 'id' => $model->id]);
         }
 

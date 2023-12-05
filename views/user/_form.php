@@ -36,6 +36,8 @@ use yii\widgets\MaskedInput;
 ]);
 ?>
 
+<?= $form->field($model, 'chat_id')->textInput(['maxlength' => true]) ?>
+
 <?= !$model->isNewRecord ? $form->field($model, 'status')->dropDownList($model->getStatusesArray(), ['prompt' => 'Выберите статус...']) : null; ?>
 
 <?php ActiveForm::end(); ?>

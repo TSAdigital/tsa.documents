@@ -24,7 +24,8 @@
         "kartik-v/yii2-widget-activeform": "dev-master",
         "kartik-v/yii2-field-range": "*",
         "kartik-v/yii2-widget-datetimepicker": "dev-master",
-        "mtangoo/yii2-fullcalendar": "^1.0"
+        "mtangoo/yii2-fullcalendar": "^1.0",
+        "aki/yii2-bot-telegram": "*"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.1.0",

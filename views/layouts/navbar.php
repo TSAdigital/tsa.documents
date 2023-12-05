@@ -1,6 +1,27 @@
 <?php
 
 use yii\helpers\Html;
+use yii\widgets\Pjax;
+
+?>
+
+<?php
+
+Pjax::begin([
+    'id' => 'count-messages',
+]);
+
+$count = Yii::$app->notification->getNotification();
+
+$script = <<< JS
+    var count = $count;
+    var title = document.title;    
+    document.title = '(' + count + ') ' + title;
+JS;
+
+if($count > 0){
+    $this->registerJs($script);
+}
 
 ?>
 
@@ -14,9 +35,9 @@ use yii\helpers\Html;
         </li>
     </ul>
     <ul class="navbar-nav ml-auto inline">
-        <?php if(Yii::$app->notification->getNotification()) : ?>
+        <?php if($count) : ?>
         <li class="nav-item">
-            <?= Html::a( '<i class="far fa-envelope-open ' . (Yii::$app->notification->getNotification() > 9 ? 'mr-1' : null) . '"></i><span class="badge badge-danger navbar-badge text-bold">' .  (Yii::$app->notification->getNotification() > 99 ? '&infin; ' : Yii::$app->notification->getNotification()) . '</span>', ['site/account'], ['class' => Yii::$app->controller->route == 'site/account' ? 'nav-link active' : 'nav-link']) ?>
+            <?= Html::a( '<i class="far fa-envelope-open ' . ($count > 9 ? 'mr-1' : null) . '"></i><span class="badge badge-danger navbar-badge text-bold">' .  ($count > 99 ? '&infin; ' : $count) . '</span>', ['site/account'], ['class' => Yii::$app->controller->route == 'site/account' ? 'nav-link active' : 'nav-link']) ?>
         </li>
         <?php endif; ?>
         <li class="nav-item d-none d-sm-block">
@@ -30,3 +51,18 @@ use yii\helpers\Html;
         </li>
     </ul>
 </nav>
+
+<?php
+
+Pjax::end();
+
+$this->registerJs(
+    <<<JS
+        function updateList() {
+          $.pjax.reload({container: '#count-messages'});
+        }
+        setInterval(updateList, 15000);
+    JS
+);
+
+?>

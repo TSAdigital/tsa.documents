@@ -19,6 +19,7 @@ use yii\web\IdentityInterface;
  * @property string $auth_key
  * @property integer $status
  * @property string $roles
+ * @property string $chat_id
  * @property integer $created_at
  * @property integer $updated_at
  * @property string $new_password
@@ -90,6 +91,11 @@ class User extends ActiveRecord implements IdentityInterface
 
             ['roles', 'safe'],
             ['roles', 'required'],
+
+            ['chat_id', 'string', 'max' => 100],
+            ['chat_id', 'unique'],
+            ['chat_id', 'trim'],
+            ['chat_id', 'filter', 'filter' => '\yii\helpers\HtmlPurifier::process'],
         ];
     }
 
@@ -99,8 +105,8 @@ class User extends ActiveRecord implements IdentityInterface
     public function scenarios()
     {
         $scenarios = parent::scenarios();
-        $scenarios[self::SCENARIO_USER_CREATE] = ['username', 'email', 'status', 'employee_id', 'new_password', 'roles'];
-        $scenarios[self::SCENARIO_USER_UPDATE] = ['username', 'email', 'status', 'employee_id', 'new_password', 'roles'];
+        $scenarios[self::SCENARIO_USER_CREATE] = ['username', 'email', 'status', 'employee_id', 'new_password', 'roles', 'chat_id'];
+        $scenarios[self::SCENARIO_USER_UPDATE] = ['username', 'email', 'status', 'employee_id', 'new_password', 'roles', 'chat_id'];
         return $scenarios;
     }
 
@@ -196,6 +202,7 @@ class User extends ActiveRecord implements IdentityInterface
             'employee_id' => 'Сотрудник',
             'employee_name' => 'Сотрудник',
             'roles' => 'Роль',
+            'chat_id' => 'Телеграм чат',
             'status' => 'Статус',
             'created_at' => 'Запись создана',
             'updated_at' => 'Запись обновлена',

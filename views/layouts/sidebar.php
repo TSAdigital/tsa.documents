@@ -34,6 +34,7 @@ use hail812\adminlte\widgets\Menu;
                     ['label' => 'НАСТРОЙКИ', 'header' => true, 'visible' => Yii::$app->user->can('admin')],
                     ['label' => 'Пользователи', 'url' => ['user/index'], 'active'=> $this->context->getUniqueId() == 'user', 'icon' => '', 'visible' => Yii::$app->user->can('admin')],
                     ['label' => 'Роли', 'url' => ['auth-item/index'], 'active'=> $this->context->getUniqueId() == 'auth-item', 'icon' => '', 'visible' => Yii::$app->user->can('admin')],
+                    ['label' => 'Телеграм', 'url' => ['telegram/index'], 'active'=> $this->context->getUniqueId() == 'telegram', 'icon' => '', 'visible' => Yii::$app->user->can('admin') and Yii::$app->params['telegram'] === true],
                 ],
             ]);
             ?>
