@@ -65,15 +65,35 @@ class EmployeeSearch extends Employee
         $dataProvider->setSort([
             'attributes' => [
                 'position_name' => [
-                    'asc' => ['positions.name' => SORT_ASC],
-                    'desc' => ['positions.name' => SORT_DESC],
-                    'label' => 'positions.name',
+                    'asc' => ['position.name' => SORT_ASC, 'id' => SORT_ASC],
+                    'desc' => ['position.name' => SORT_DESC, 'id' => SORT_DESC],
+                    'label' => 'position_name',
                     'default' => SORT_ASC
                 ],
-                'last_name',
-                'first_name',
-                'middle_name',
-                'status',
+                'last_name' => [
+                    'asc' => ['last_name' => SORT_ASC, 'id' => SORT_ASC],
+                    'desc' => ['last_name' => SORT_DESC, 'id' => SORT_DESC],
+                    'label' => 'last_name',
+                    'default' => SORT_ASC
+                ],
+                'first_name' => [
+                    'asc' => ['first_name' => SORT_ASC, 'id' => SORT_ASC],
+                    'desc' => ['first_name' => SORT_DESC, 'id' => SORT_DESC],
+                    'label' => 'first_name',
+                    'default' => SORT_ASC
+                ],
+                'middle_name' => [
+                    'asc' => ['middle_name' => SORT_ASC, 'id' => SORT_ASC],
+                    'desc' => ['middle_name' => SORT_DESC, 'id' => SORT_DESC],
+                    'label' => 'middle_name',
+                    'default' => SORT_ASC
+                ],
+                'status' => [
+                    'asc' => ['status' => SORT_ASC, 'id' => SORT_ASC],
+                    'desc' => ['status' => SORT_DESC, 'id' => SORT_DESC],
+                    'label' => 'status',
+                    'default' => SORT_ASC
+                ],
             ]
         ]);
 
