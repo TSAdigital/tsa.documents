@@ -28,6 +28,7 @@ class AppAsset extends AssetBundle
         'js/accordion.js',
         'js/preloader.js',
         'js/tooltip.js',
+        'js/jquery.titlealert.js',
     ];
     public $depends = [
         'yii\web\YiiAsset',

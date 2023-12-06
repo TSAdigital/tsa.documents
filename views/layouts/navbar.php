@@ -14,15 +14,17 @@ Pjax::begin([
 $count = Yii::$app->notification->getNotification();
 
 $script = <<< JS
-    var count = $count;
-    var title = document.title;    
-    document.title = '(' + count + ') ' + title;
+$.titleAlert("Новых уведомлений - $count", {
+    requireBlur:true,
+    stopOnFocus:true,
+    duration:0,
+    interval:2000
+});
 JS;
 
 if($count > 0){
     $this->registerJs($script);
 }
-
 ?>
 
 <nav class="main-header navbar navbar-expand navbar-white navbar-light">
@@ -57,12 +59,12 @@ if($count > 0){
 Pjax::end();
 
 $this->registerJs(
-    <<<JS
-        function updateList() {
-          $.pjax.reload({container: '#count-messages'});
-        }
-        setInterval(updateList, 15000);
-    JS
+<<<JS
+    function updateList() {
+      $.pjax.reload({container: '#count-messages'});
+    }
+    setInterval(updateList, 25000);
+JS
 );
 
 ?>
