@@ -7,10 +7,10 @@
 /* @var $document_favourites app\models\DocumentFavourites */
 /* @var $task_favourites app\models\TaskFavourites */
 /* @var $news app\models\News */
-
 /* @var integer $documents_count */
 /* @var integer $tasks_count */
 /* @var array $events */
+/* @var $event app\models\Event */
 
 use hosannahighertech\calendar\Calendar;
 use yii\helpers\HtmlPurifier;
@@ -263,6 +263,60 @@ $this->params['breadcrumbs'][] = 'Личный кабинет';
                     </div>
                 </div>
                 <?php endif; ?>
+                <div class="card d-sm-none">
+                    <div class="card-header p-2" id="headingFour">
+                        <h2 class="mb-0">
+                            <button class="btn btn-link btn-block text-left collapsed" type="button" data-toggle="collapse" data-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+                                Мероприятия <span class="badge badge-danger text-bold"><?= ($tasks_count > 0) ? $tasks_count : false ?></span>
+                            </button>
+                        </h2>
+                    </div>
+                    <div id="collapseFour" class="collapse" aria-labelledby="headingFour" data-parent="#accordionAccount">
+                        <div class="card-body p-1">
+                            <div class="card-body">
+                                <div class="tab-content">
+                                    <?php
+                                    $template = '
+                                                {summary}  
+                                                <div class="table-responsive">
+                                                <table class="table table-striped table-bordered mb-0">
+                                                <thead>
+                                                    <tr>
+                                                        <th scope="col">#</th>
+                                                        <th scope="col" class="col-7 col-md-8 col-lg-9" style="white-space: nowrap">Наименование</th>
+                                                        <th scope="col" class="col-5 col-md-4 col-lg-3" style="text-align: center; white-space: nowrap">Дата</th>                                                                                                  
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    {items}
+                                                </tbody>
+                                                </table>
+                                                </div>
+                                                {pager}
+                                            ';
+                                    ?>
+
+                                    <?= ListView::widget([
+                                        'dataProvider' => $event,
+                                        'layout' => $template,
+                                        'emptyText' => 'Нет мероприятий.',
+                                        'viewParams' => [
+                                            'page_size' => $event->pagination->pageSize,
+                                            'current_page' => (int) is_numeric(Yii::$app->request->get('page-event')) ? Yii::$app->request->get('page-event') : 0
+                                        ],
+                                        'itemView' => '_list-event',
+                                        'pager' => [
+                                            'options' => [
+                                                'id' => 'list-viewed-pagination',
+                                            ]
+                                        ],
+                                    ]);
+                                    ?>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
         <div class="col-12 col-sm-12 col-md-12 col-lg-7 col-xl-7">

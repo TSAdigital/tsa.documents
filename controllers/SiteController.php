@@ -225,6 +225,18 @@ class SiteController extends Controller
             ],
         ]);
 
+        $event = new ActiveDataProvider([
+            'query' => \app\models\Event::find()->where(['like', 'resolution', sprintf('"%s"', $user_id)])->andWhere(['>=', 'start', strtotime('today')])->andWhere(['status' => \app\models\Event::STATUS_ACTIVE])->orWhere(['resolution' => NULL])->andWhere(['>=', 'start', strtotime('today')])->andWhere(['status' => \app\models\Event::STATUS_ACTIVE]),
+            'sort'=> ['defaultOrder' => ['start' => SORT_ASC]],
+            'pagination' => [
+                'pageSize' => 5,
+                'pageParam' => 'page-event',
+                'params' => [
+                    '#' => 'event',
+                    'page-event' => Yii::$app->request->get('page-event'),
+                ],
+            ],
+        ]);
 
         $events = [];
         $items = [];
@@ -247,7 +259,6 @@ class SiteController extends Controller
             $events[] = new Event($item);
         }
 
-
         return $this->render('account', [
             'user' => $user,
             'document_favourites' => $document_favourites,
@@ -258,6 +269,7 @@ class SiteController extends Controller
             'tasks_count' => $tasks->count(),
             'news' => $news,
             'events' => $events,
+            'event' => $event,
         ]);
     }
 }

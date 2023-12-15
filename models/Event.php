@@ -179,8 +179,8 @@ class Event extends ActiveRecord
     {
         parent::afterFind();
 
-        $this->start = !empty($this->start) ? Yii::$app->formatter->asDatetime($this->start, 'short') : NULL;
-        $this->end = !empty($this->end) ? Yii::$app->formatter->asDatetime($this->end, 'short') : NULL;
+        $this->start = !empty($this->start) ? Yii::$app->formatter->asDatetime($this->start) : NULL;
+        $this->end = !empty($this->end) ? Yii::$app->formatter->asDatetime($this->end) : NULL;
     }
 
     /**
