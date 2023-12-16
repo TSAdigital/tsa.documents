@@ -196,7 +196,7 @@ class Task extends ActiveRecord
     {
         parent::afterFind();
 
-        $this->date = !empty($this->date) ? Yii::$app->formatter->asDatetime($this->date, 'short') : NULL;
+        $this->date = !empty($this->date) ? Yii::$app->formatter->asDatetime($this->date) : NULL;
     }
 
     /**

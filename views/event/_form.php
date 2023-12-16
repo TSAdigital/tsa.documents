@@ -20,7 +20,7 @@ use yii\widgets\ActiveForm;
 <?= $form->field($model, 'start', ['enableClientValidation' => false])->widget(DateTimePicker::classname(), [
     'options' => ['placeholder' => 'Укажите дату и время...'],
     'pluginOptions' => [
-        'format' => 'dd.mm.yyyy hh:ii:ss',
+        'format' => 'dd.mm.yyyy, hh:ii',
         'autoclose' => true,
         'todayBtn' => true,
         'todayHighlight' => true,
@@ -30,7 +30,7 @@ use yii\widgets\ActiveForm;
 <?= $form->field($model, 'end', ['enableClientValidation' => false])->widget(DateTimePicker::classname(), [
     'options' => ['placeholder' => 'Укажите дату и время...'],
     'pluginOptions' => [
-        'format' => 'dd.mm.yyyy hh:ii:ss',
+        'format' => 'dd.mm.yyyy, hh:ii',
         'autoclose' => true,
         'todayBtn' => true,
         'todayHighlight' => true,

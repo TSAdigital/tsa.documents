@@ -31,8 +31,8 @@ $config = [
         'formatter' => [
             'class' => 'app\components\FormatterHelper',
             'dateFormat' => 'php:d.m.Y',
-            'datetimeFormat' => 'php:d.m.Y H:i:s',
-            'timeFormat' => 'php:H:i:s',
+            'datetimeFormat' => 'php:d.m.Y, H:i',
+            'timeFormat' => 'php:H:i',
         ],
         'notification' => [
             'class' => 'app\components\Notification'
