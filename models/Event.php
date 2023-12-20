@@ -72,6 +72,8 @@ class Event extends ActiveRecord
             ['start', 'required'],
 
             ['end', 'safe'],
+            ['end', 'checkValidityPeriod'],
+
 
             ['color', 'in', 'range' => [self::COLOR_GREEN, self::COLOR_BLUE, self::COLOR_RED]],
 
@@ -190,5 +192,17 @@ class Event extends ActiveRecord
     public function getUsers($id)
     {
         return implode(' &equiv; ', ArrayHelper::map(User::findAll(['id' => $id]),'id', function($data){return  Html::a($data->employee_name, ['site/profile', 'id' => $data->id]);}));
+    }
+
+    /**
+     * @param $attribute
+     * @return void
+     */
+    public function checkValidityPeriod($attribute) {
+        if ($this->end) {
+            if(strtotime($this->end) < strtotime($this->start)){
+                $this->addError($attribute, 'Дата завершения события не должна быть меньше даты начала.');
+            }
+        }
     }
 }

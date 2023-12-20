@@ -75,16 +75,18 @@ $this->params['buttons'] = [
                             <div class="d-block d-sm-none">
                                 <table class="table table-striped table-bordered mb-0">
                                     <tbody>
+                                    <?php if($model->document0) : ?>
                                     <tr>
                                         <td><p class="mb-0"><b><?= $model->getAttributeLabel('document_id') ?>: </b><?= $model->document0 ? Html::a(Html::encode($model->document0->name), ['document/view', 'id' => $model->document0->id], ['data-pjax' => 0]) : null ?></p></td>
                                     </tr>
+                                    <?php endif; ?>
                                     <tr>
                                         <td><p class="mb-0"><b><?= $model->getAttributeLabel('name') ?>: </b><?= Html::encode($model->name) ?></p></td>
                                     </tr>
                                     <?php if(!empty($model->description)) : ?>
-                                        <tr>
-                                            <td><p class="mb-0"><b><?= $model->getAttributeLabel('description') ?>: </b><?= Yii::$app->formatter->asNtext($model->description) ?></p></td>
-                                        </tr>
+                                    <tr>
+                                        <td><p class="mb-0"><b><?= $model->getAttributeLabel('description') ?>: </b><?= Yii::$app->formatter->asNtext($model->description) ?></p></td>
+                                    </tr>
                                     <?php endif; ?>
                                     <tr>
                                         <td><p class="mb-0"><b><?= $model->getAttributeLabel('number') ?>: </b><?= Html::encode($model->number) ?></p></td>
@@ -93,9 +95,9 @@ $this->params['buttons'] = [
                                         <td><p class="mb-0"><b><?= $model->getAttributeLabel('date') ?>: </b><?= Html::encode($model->date) ?></p></td>
                                     </tr>
                                     <?php if(!empty($model->validity_period)) : ?>
-                                        <tr>
-                                            <td><p class="mb-0"><b><?= $model->getAttributeLabel('validity_period') ?>: </b><?= Html::encode($model->validity_period) ?></p></td>
-                                        </tr>
+                                    <tr>
+                                        <td><p class="mb-0"><b><?= $model->getAttributeLabel('validity_period') ?>: </b><?= Html::encode($model->validity_period) ?></p></td>
+                                    </tr>
                                     <?php endif; ?>
                                     <tr>
                                         <td><p class="mb-0"><b><?= $model->getAttributeLabel('type') ?>: </b><?= Html::encode($model->type0->name) ?></p></td>
@@ -104,12 +106,12 @@ $this->params['buttons'] = [
                                         <td><p class="mb-0"><b><?= $model->getAttributeLabel('user_id') ?>: </b><?= Html::a(Html::encode(isset($model->user->employee) ? Html::encode($model->user->employee->employeeFullName) : Html::encode($model->user->username)), ['site/profile', 'id' => $model->user_id], ['data-pjax' => 0]) ?></p></td>
                                     </tr>
                                     <?php if(!empty($model->executor_id)) : ?>
-                                        <tr>
-                                            <td><p class="mb-0"><b><?= $model->getAttributeLabel('executor_id') ?>: </b><?= $model->executor_id ? Html::a(Html::encode($model->executor->employee_name), ['site/profile', 'id' => $model->executor_id], ['data-pjax' => 0]) : NULL ?></p></td>
-                                        </tr>
+                                    <tr>
+                                        <td><p class="mb-0"><b><?= $model->getAttributeLabel('executor_id') ?>: </b><?= $model->executor_id ? Html::a(Html::encode($model->executor->employee_name), ['site/profile', 'id' => $model->executor_id], ['data-pjax' => 0]) : NULL ?></p></td>
+                                    </tr>
                                     <?php endif; ?>
                                     <tr>
-                                        <td><p class="mb-0"><b><?= $model->getAttributeLabel('resolution') ?>: </b><?= Html::encode(implode(', ', ArrayHelper::map(User::findAll(['id' => $model->resolution]),'id', 'employee_name'))) ?></p></td>
+                                        <td><p class="mb-0"><b><?= $model->getAttributeLabel('resolution') ?>: </b><?= !empty($model->getUsers($model->resolution)) ? $model->getUsers($model->resolution) : 'Все сотрудники' ?></p></td>
                                     </tr>
                                     <tr>
                                         <td><p class="mb-0"><b><?= $model->getAttributeLabel('status') ?>: </b><?= Html::encode($model->getStatusName()) ?></p></td>

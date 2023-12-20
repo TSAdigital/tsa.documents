@@ -239,7 +239,7 @@ class Document extends ActiveRecord
      */
     public function getUsers($id)
     {
-        return implode(' &equiv; ', ArrayHelper::map(User::findAll(['id' => $id]),'id', function($data){return  Html::a($data->employee_name, ['site/profile', 'id' => $data->id]);}));
+        return implode(' &equiv; ', ArrayHelper::map(User::findAll(['id' => $id]),'id', function($data){return  Html::a(Html::encode($data->employee_name), ['site/profile', 'id' => $data->id]);}));
     }
 
     /**

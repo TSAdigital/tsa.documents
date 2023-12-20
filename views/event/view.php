@@ -44,7 +44,7 @@ $this->params['buttons'] = [
                             <td><p class="mb-0"><b><?= $model->getAttributeLabel('end') ?>: </b><?= Html::encode($model->end) ?></p></td>
                         </tr>
                         <?php endif; ?>
-                        <?php if($model->resolution and (Yii::$app->user->can('admin') or Yii::$app->user->can('eventsAdmin'))): ?>
+                        <?php if((Yii::$app->user->can('admin') or Yii::$app->user->can('eventsAdmin'))): ?>
                         <tr>
                             <td><p class="mb-0"><b><?= $model->getAttributeLabel('resolution') ?>: </b><?= !empty($model->getUsers($model->resolution)) ? $model->getUsers($model->resolution) : 'Все сотрудники' ?></p></td>
                         </tr>
