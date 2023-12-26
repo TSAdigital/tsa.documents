@@ -224,3 +224,7 @@ div.required label:after {
     min-height: 38px !important;
     max-height: 100px !important;
 }
+
+.main-header{
+    z-index: 0;
+}
