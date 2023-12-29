@@ -8,6 +8,7 @@ use yii\widgets\DetailView;
 
 $this->title = $model->name;
 $this->params['breadcrumbs'][] = ['label' => 'Мероприятия', 'url' => ['index']];
+$this->params['breadcrumbs'][] = $this->title;
 $this->params['buttons'] = [
     'update' => (Yii::$app->user->can('admin') or (Yii::$app->user->can('updateEvents') and $model->user_id == Yii::$app->user->identity->id)) ? Html::a('<i class="fas fa-edit text-primary"></i> Изменить', ['update', 'id' => $model->id], ['class' => 'btn btn-app']) : null,
     /*  'delete' =>  Html::a('<i class="fas fa-trash-alt text-danger"></i> Удалить', ['delete', 'id' => $model->id], [
