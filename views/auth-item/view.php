@@ -174,7 +174,7 @@ Modal::begin([
 
 <?= $form->field($authItemChild, 'child')->widget(Select2::class,
     [
-        'data' => ArrayHelper::map(AuthItem::find()->where(['type' => 2])->all(), 'name', 'description'),
+        'data' => $model->getPermissionSelect(),
         'options' => ['placeholder' => 'Выберите разрешение...'],
         'pluginOptions' => [
             'allowClear' => true

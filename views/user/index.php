@@ -81,7 +81,7 @@ $this->params['buttons'] = [
                             [
                                 'attribute' => 'roles',
                                 'format' => 'raw',
-                                'filter' => User::getRolesDropdown(),
+                                'filter' => User::getRoles(),
                                 'headerOptions' => ['style' => 'text-align: center !important; vertical-align: middle !important; min-width:150px; white-space: nowrap'],
                                 'contentOptions' => ['style' => 'text-align: center !important; vertical-align: middle !important; min-width:150px;'],
                                 'options' => ['width' => '20%'],

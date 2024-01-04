@@ -19,7 +19,7 @@ use yii\widgets\MaskedInput;
 
 <?= $form->field($model, 'username') ?>
 
-<?= $form->field($model, 'roles')->dropDownList($model->getRolesDropdown(), ['prompt' => 'Выберите роль...']); ?>
+<?= $form->field($model, 'roles')->dropDownList($model->getRoles(), ['prompt' => 'Выберите роль...']); ?>
 
 <?= $form->field($model, 'email')->widget(MaskedInput::class, [
     'clientOptions' => [

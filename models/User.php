@@ -212,9 +212,14 @@ class User extends ActiveRecord implements IdentityInterface
     /**
      *
      */
-    public static function getRolesDropdown()
+    public function getRolesDropdown()
     {
-        return ArrayHelper::map(AuthItem::find()->where(['type' => 1, 'status' => 10])->all(), 'name', 'description');
+        return ArrayHelper::map(AuthItem::find()->where(['name' => $this->roles])->orWhere(['type' => 1, 'status' => 10])->all(), 'name', 'description');
+    }
+
+    public static function getRoles()
+    {
+        return ArrayHelper::map(AuthItem::find()->where(['type' => 1])->all(), 'name', 'description');
     }
 
     /**
@@ -251,7 +256,7 @@ class User extends ActiveRecord implements IdentityInterface
      */
     public function getRolesName()
     {
-        return ArrayHelper::getValue(self::getRolesDropdown(), $this->roles);
+        return ArrayHelper::getValue(self::getRoles(), $this->roles);
     }
 
     /**

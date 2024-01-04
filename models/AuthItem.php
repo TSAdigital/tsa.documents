@@ -142,4 +142,14 @@ class AuthItem extends ActiveRecord
     {
         return ArrayHelper::getValue(self::getStatusesArray(), $this->status);
     }
+
+    /**
+     * @return array
+     */
+    public function getPermissionSelect()
+    {
+        $selected = ArrayHelper::getColumn($this->getChildren()->select('name')->asArray()->all(), 'name');
+
+        return ArrayHelper::map($this::find()->where(['type' => 2])->andWhere(['not in', 'name', $selected])->all(), 'name', 'description');
+    }
 }
