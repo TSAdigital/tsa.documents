@@ -21,6 +21,7 @@ use yii\widgets\ActiveForm;
     'options' => ['placeholder' => 'Укажите дату и время...'],
     'pluginOptions' => [
         'format' => 'dd.mm.yyyy, hh:ii',
+        'pickerPosition' => 'top-right',
         'autoclose' => true,
         'todayBtn' => true,
         'todayHighlight' => true,
@@ -31,6 +32,7 @@ use yii\widgets\ActiveForm;
     'options' => ['placeholder' => 'Укажите дату и время...'],
     'pluginOptions' => [
         'format' => 'dd.mm.yyyy, hh:ii',
+        'pickerPosition' => 'top-right',
         'autoclose' => true,
         'todayBtn' => true,
         'todayHighlight' => true,
