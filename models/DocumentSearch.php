@@ -75,7 +75,6 @@ class DocumentSearch extends Document
         }
 
         $query->andFilterWhere([
-            'number' => $this->number,
             'date' => $this->date ? date('Y-m-d', strtotime($this->date)) : null,
             'type' => $this->type,
             'status' => $this->status,
@@ -86,6 +85,7 @@ class DocumentSearch extends Document
                 ['like', 'name', $this->name],
                 ['like', 'uniq_id', $this->name],
             ])
+            ->andFilterWhere(['like', 'number', $this->number])
             ->andFilterWhere(['>=', 'date', $this->date_from ? date('Y-m-d', strtotime($this->date_from)) : null])
             ->andFilterWhere(['<=', 'date', $this->date_to ? date('Y-m-d', strtotime($this->date_to)) : null]);
         return $dataProvider;

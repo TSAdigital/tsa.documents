@@ -64,8 +64,14 @@ $this->params['buttons'] = [
                                 'contentOptions' => ['style' => 'text-align: center !important; vertical-align: middle !important; white-space: nowrap']
                             ],
                             [
+                                'attribute' => 'number',
+                                'options' => ['width' => '10%'],
+                                'headerOptions' => ['style' => 'text-align: center !important; vertical-align: middle !important; min-width:60px; white-space: nowrap'],
+                                'contentOptions' => ['style' => 'text-align: center !important; vertical-align: middle !important; min-width:60px;'],
+                            ],
+                            [
                                 'attribute' => 'name',
-                                'options' => ['width' => '65%'],
+                                'options' => ['width' => '55%'],
                                 'filterInputOptions' => [
                                     'class' => 'form-control',
                                     'autocomplete' => 'off'
