@@ -66,8 +66,8 @@ $this->params['buttons'] = [
                             [
                                 'attribute' => 'number',
                                 'options' => ['width' => '10%'],
-                                'headerOptions' => ['style' => 'text-align: center !important; vertical-align: middle !important; min-width:60px; white-space: nowrap'],
-                                'contentOptions' => ['style' => 'text-align: center !important; vertical-align: middle !important; min-width:60px;'],
+                                'headerOptions' => ['style' => 'text-align: center !important; vertical-align: middle !important; min-width:120px; white-space: nowrap'],
+                                'contentOptions' => ['style' => 'text-align: center !important; vertical-align: middle !important; min-width:120px;', 'class' => 'truncate'],
                             ],
                             [
                                 'attribute' => 'name',
@@ -78,7 +78,7 @@ $this->params['buttons'] = [
                                 ],
                                 'format' => 'raw',
                                 'headerOptions' => ['style' => 'vertical-align: middle !important; min-width:200px; white-space: nowrap'],
-                                'contentOptions' => ['style' => 'vertical-align: middle !important; min-width:200px'],
+                                'contentOptions' => ['style' => 'vertical-align: middle !important; min-width:200px', 'class' => 'truncate'],
                                 'value' => function ($model) {
                                     $user_id = Yii::$app->user->identity->id;
 
@@ -94,7 +94,7 @@ $this->params['buttons'] = [
                                         $view = ($query == null and $model->user_id != $user_id);
                                     }
 
-                                    return Html::a(Html::encode(StringHelper::truncate($model->name, 100, '...')), ['document/view', 'id' => $model->id], ['data-pjax' => 0]) . ($view ? '<sup><i class="fas fa-exclamation-circle text-danger ml-1" data-toggle="tooltip" data-placement="top" title="Новый документ"></i></sup>' : null);
+                                    return ($view ? '<small><i class="fas fa-exclamation-circle text-danger mr-1" data-toggle="tooltip" data-placement="top" title="Новый документ"></i></small>' : null) . Html::a(Html::encode($model->name), ['document/view', 'id' => $model->id], ['data-pjax' => 0]);
                                 }
                             ],
                             [

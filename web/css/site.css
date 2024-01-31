@@ -228,3 +228,15 @@ div.required label:after {
 .main-header{
     z-index: 0;
 }
+
+.truncate {
+    max-width: 150px !important;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+.truncate:hover{
+    overflow: visible;
+    white-space: normal;
+    width: auto;
+}
