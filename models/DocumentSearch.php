@@ -80,9 +80,16 @@ class DocumentSearch extends Document
             'status' => $this->status,
         ]);
 
+        $terms = explode( " ", $this->name);
+
+        $condition = ['and'];
+        foreach ($terms as $key) {
+            $condition[] = ['like', 'name', $key];
+        }
+
         $query->andFilterWhere([
                 'OR',
-                ['like', 'name', $this->name],
+                $condition,
                 ['like', 'uniq_id', $this->name],
             ])
             ->andFilterWhere(['like', 'number', $this->number])
