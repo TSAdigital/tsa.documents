@@ -24,6 +24,15 @@ $config = [
             // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
             'cookieValidationKey' => '',
         ],
+        'session' => [
+            'class' => 'yii\web\DbSession',
+            'writeCallback' => function ($session) {
+                return [
+                    'user_id' => Yii::$app->user->id,
+                    'last_write' => time(),
+                ];
+            },
+        ],
         'telegram' => [
             'class' => 'aki\telegram\Telegram',
             'botToken' => '',
@@ -36,6 +45,9 @@ $config = [
         ],
         'notification' => [
             'class' => 'app\components\Notification'
+        ],
+        'active' => [
+            'class' => 'app\components\Active'
         ],
         'authManager' => [
             'class' => 'yii\rbac\DbManager',

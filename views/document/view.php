@@ -24,6 +24,7 @@ use yii\widgets\ListView;
 /** @var bool $viewed_button */
 /** @var bool $viewed_resolution */
 
+Yii::$app->active->getActive();
 $this->title = $model->name;
 $this->params['breadcrumbs'][] = ['label' => 'Документы', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;

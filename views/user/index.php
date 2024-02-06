@@ -68,15 +68,23 @@ $this->params['buttons'] = [
                                 'options' => ['width' => '30%'],
                                 'format' => 'raw',
                                 'value' => function ($model) {
-                                    return Html::a($model->username, ['user/view', 'id' => $model->id], ['data-pjax' => 0]);
+                                    return Html::a(Html::encode($model->username), ['user/view', 'id' => $model->id], ['data-pjax' => 0]);
                                 }
                             ],
                             [
                                 'attribute' => 'email',
                                 'headerOptions' => ['style' => 'vertical-align: middle !important; min-width:200px; white-space: nowrap'],
                                 'contentOptions' => ['style' => 'vertical-align: middle !important; min-width:200px'],
-                                'options' => ['width' => '30%'],
+                                'options' => ['width' => '20%'],
                                 'format' => 'email',
+                            ],
+                            [
+                                'attribute' => 'active',
+                                'headerOptions' => ['style' => 'text-align: center !important; vertical-align: middle !important; min-width:150px; white-space: nowrap'],
+                                'contentOptions' => ['style' => 'text-align: center !important; vertical-align: middle !important; min-width:150px;'],
+                                'filterInputOptions' => ['class' => 'form-control text-center'],
+                                'options' => ['width' => '10%'],
+                                'format' => 'datetime',
                             ],
                             [
                                 'attribute' => 'roles',

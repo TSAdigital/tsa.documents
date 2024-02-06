@@ -21,9 +21,9 @@ class UserSearch extends User
             ['email', 'email'],
             ['email', 'filter', 'filter' => '\yii\helpers\HtmlPurifier::process'],
 
-            [['roles', 'username'], 'string'],
-            [['roles', 'username'], 'filter', 'filter' => '\yii\helpers\HtmlPurifier::process'],
-            [['roles', 'username'], 'trim'],
+            [['roles', 'username', 'active'], 'string'],
+            [['roles', 'username', 'active'], 'filter', 'filter' => '\yii\helpers\HtmlPurifier::process'],
+            [['roles', 'username', 'active'], 'trim'],
         ];
     }
 
@@ -69,6 +69,12 @@ class UserSearch extends User
                     'label' => 'roles',
                     'default' => SORT_ASC
                 ],
+                'active' => [
+                    'asc' => ['active' => SORT_ASC, 'id' => SORT_ASC],
+                    'desc' => ['active' => SORT_DESC, 'id' => SORT_DESC],
+                    'label' => 'active',
+                    'default' => SORT_ASC
+                ],
                 'username',
                 'email',
                 'status' => [
@@ -87,8 +93,9 @@ class UserSearch extends User
         ]);
 
         $query->andFilterWhere(['like', 'username', $this->username])
-            ->andFilterWhere(['like', 'auth_assignment.item_name', $this->roles]);
-
+            ->andFilterWhere(['like', 'auth_assignment.item_name', $this->roles])
+            ->andFilterWhere(['>=', 'active', $this->active ? strtotime($this->active . ' 00:00:00') : null])
+            ->andFilterWhere(['<=', 'active', $this->active ? strtotime($this->active . ' 23:59:59') : null]);
         return $dataProvider;
     }
 }

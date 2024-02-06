@@ -66,7 +66,7 @@ $this->params['buttons'] = [
                                 'headerOptions' => ['style' => 'vertical-align: middle !important; min-width:200px; white-space: nowrap'],
                                 'contentOptions' => ['style' => 'vertical-align: middle !important; min-width:200px'],
                                 'value' => function ($model) {
-                                    return Html::a($model->description, ['auth-item/view', 'name' => $model->name], ['data-pjax' => 0]);
+                                    return Html::a(Html::encode($model->description), ['auth-item/view', 'name' => Html::encode($model->name)], ['data-pjax' => 0]);
                                 }
                             ],
                             [

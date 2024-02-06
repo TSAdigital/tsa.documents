@@ -18,6 +18,7 @@ use yii\web\IdentityInterface;
  * @property string $email
  * @property string $auth_key
  * @property integer $status
+ * @property string $active
  * @property string $roles
  * @property string $chat_id
  * @property integer $created_at
@@ -91,6 +92,8 @@ class User extends ActiveRecord implements IdentityInterface
 
             ['roles', 'safe'],
             ['roles', 'required'],
+
+            ['active', 'safe'],
 
             ['chat_id', 'string', 'max' => 100],
             ['chat_id', 'unique'],
@@ -202,6 +205,7 @@ class User extends ActiveRecord implements IdentityInterface
             'employee_id' => 'Сотрудник',
             'employee_name' => 'Сотрудник',
             'roles' => 'Роль',
+            'active' => 'Активность',
             'chat_id' => 'Телеграм чат',
             'status' => 'Статус',
             'created_at' => 'Запись создана',
@@ -340,5 +344,4 @@ class User extends ActiveRecord implements IdentityInterface
     {
         return ArrayHelper::map(self::findAll(['status' => self::STATUS_ACTIVE]),'id','employee_name');
     }
-
 }

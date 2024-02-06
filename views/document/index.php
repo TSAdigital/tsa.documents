@@ -67,7 +67,7 @@ $this->params['buttons'] = [
                                 'attribute' => 'number',
                                 'options' => ['width' => '10%'],
                                 'headerOptions' => ['style' => 'text-align: center !important; vertical-align: middle !important; min-width:120px; white-space: nowrap'],
-                                'contentOptions' => ['style' => 'text-align: center !important; vertical-align: middle !important; min-width:120px;', 'class' => 'truncate'],
+                                'contentOptions' => ['style' => 'text-align: center !important; vertical-align: middle !important; min-width:120px;'],
                             ],
                             [
                                 'attribute' => 'name',

@@ -77,6 +77,11 @@ $this->params['buttons'] = [
                                     'value' =>  Html::encode($model->employee ? $model->getEmployee_name() : null),
                                 ],
                                 [
+                                    'attribute' => 'active',
+                                    'format' => 'datetime',
+                                    'visible' => !empty($model->active)
+                                ],
+                                [
                                     'attribute' => 'roles',
                                     'value' => $model->getRolesName(),
                                 ],

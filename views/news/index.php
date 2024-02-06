@@ -66,7 +66,7 @@ $this->params['buttons'] = [
                                 'headerOptions' => ['style' => 'vertical-align: middle !important; min-width:200px; white-space: nowrap'],
                                 'contentOptions' => ['style' => 'vertical-align: middle !important; min-width:200px'],
                                 'value' => function ($model) {
-                                    return Html::a($model->title, ['news/view', 'id' => $model->id], ['data-pjax' => 0]);
+                                    return Html::a(Html::encode($model->title), ['news/view', 'id' => $model->id], ['data-pjax' => 0]);
                                 }
                             ],
                             [

@@ -235,8 +235,10 @@ div.required label:after {
     white-space: nowrap;
     text-overflow: ellipsis;
 }
+/*
 .truncate:hover{
     overflow: visible;
     white-space: normal;
     width: auto;
 }
+*/
