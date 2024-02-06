@@ -83,7 +83,7 @@ $this->params['buttons'] = [
                                 'headerOptions' => ['style' => 'text-align: center !important; vertical-align: middle !important; min-width:150px; white-space: nowrap'],
                                 'contentOptions' => ['style' => 'text-align: center !important; vertical-align: middle !important; min-width:150px;'],
                                 'filterInputOptions' => ['class' => 'form-control text-center'],
-                                'options' => ['width' => '10%'],
+                                'options' => ['width' => '15%'],
                                 'format' => 'datetime',
                             ],
                             [
@@ -92,7 +92,7 @@ $this->params['buttons'] = [
                                 'filter' => User::getRoles(),
                                 'headerOptions' => ['style' => 'text-align: center !important; vertical-align: middle !important; min-width:150px; white-space: nowrap'],
                                 'contentOptions' => ['style' => 'text-align: center !important; vertical-align: middle !important; min-width:150px;'],
-                                'options' => ['width' => '20%'],
+                                'options' => ['width' => '15%'],
                                 'value' => function ($model, $key, $index, $column) {
                                     /** @var User $model */
                                     /** @var \yii\grid\DataColumn $column */
