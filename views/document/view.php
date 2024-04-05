@@ -1,10 +1,8 @@
 <?php
 
-use app\models\User;
 use kartik\select2\Select2;
 use yii\bootstrap4\ActiveForm;
 use yii\bootstrap4\Modal;
-use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\web\JsExpression;
@@ -15,6 +13,7 @@ use yii\widgets\ListView;
 /** @var app\models\Document $model */
 /** @var app\models\Upload $file */
 /** @var app\models\View $viewed */
+/** @var app\models\SignDocument $sign */
 /** @var app\models\DocumentTask $tasks */
 /** @var app\models\DocumentTask $document_task */
 /** @var app\models\DocumentFavourites $favourites */
@@ -22,6 +21,7 @@ use yii\widgets\ListView;
 /** @var app\models\Discussion $discussions */
 /** @var int $discussion_count */
 /** @var bool $viewed_button */
+/** @var bool $sing_button */
 /** @var bool $viewed_resolution */
 
 Yii::$app->active->getActive();
@@ -29,6 +29,7 @@ $this->title = $model->name;
 $this->params['breadcrumbs'][] = ['label' => 'Документы', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 $this->params['buttons'] = [
+    'sign' => $sing_button ? Html::a('<i class="fas fa-signature text-green"></i>Подписать', '#', ['class' => 'btn btn-app', 'data-toggle' => 'modal', 'data-target' => '#sign']) : null,
     'favourites' => $favourites ? Html::a('<i class="fas fa-star text-warning"></i>Избранное', ['document/favourites', 'id' => $model->id], ['class' => 'btn btn-app', 'data' => [
         'confirm' => 'Удалить этот документ из избранного?',
         'method' => 'post',
@@ -49,6 +50,7 @@ $this->params['buttons'] = [
     ]) : null, */
     'undo' => Html::a('<i class="far fa-arrow-alt-circle-left text-muted"></i>Вернуться', ['document/index'], ['class' => 'btn btn-app'])
 ];
+
 ?>
 
 <div class="container-fluid">
@@ -350,7 +352,7 @@ $this->params['buttons'] = [
                         </div>
                         <div class="tab-pane" id="event">
                             <div class="accordion" id="accordionEvent">
-                                <div class="card  pb-0 mb-0">
+                                <div class="card pb-0 mb-3">
                                     <div class="card-header p-2" id="headingOne">
                                         <h2 class="mb-0">
                                             <button class="btn btn-link btn-block text-left" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
@@ -392,6 +394,60 @@ $this->params['buttons'] = [
                                                     'current_page' => (int) is_numeric(Yii::$app->request->get('page-viewed')) ? Yii::$app->request->get('page-viewed') : 0
                                                 ],
                                                 'itemView' => '_list-viewed',
+                                                'pager' => [
+                                                    'options' => [
+                                                        'id' => 'list-viewed-pagination',
+                                                    ]
+                                                ],
+                                            ]);
+                                            ?>
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card pb-0 mb-0">
+                                    <div class="card-header p-2" id="headingTwo">
+                                        <h2 class="mb-0">
+                                            <button class="btn btn-link btn-block text-left" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+                                                Документ подписан
+                                            </button>
+                                        </h2>
+                                    </div>
+                                    <div id="collapseTwo" class="collapse show" aria-labelledby="headingTwo" data-parent="#accordionEvent">
+                                        <div class="card-body">
+
+                                            <?php
+                                            $template = '
+                                                    {summary}  
+                                                    <div class="table-responsive">
+                                                    <table class="table table-striped table-bordered mb-0">
+                                                    <thead>
+                                                        <tr>
+                                                            <th scope="col">#</th>
+                                                            <th scope="col" class="col-6 col-md-7 col-lg-8" style="white-space: nowrap">Сотрудник</th>
+                                                            <th scope="col" class="col-5 col-md-4 col-lg-3" style="text-align: center; white-space: nowrap">Дата</th>                                                                                                  
+                                                            <th scope="col" class="col-1 col-md-1 col-lg-1" style="text-align: center; white-space: nowrap">Подпись</th>                                                                                                  
+                                                        </tr>
+                                                    </thead>
+                                                        <tbody>
+                                                        {items}
+                                                        </tbody>
+                                                    </table>
+                                                    </div>
+                                                    {pager}
+                                            ';
+                                            ?>
+
+                                            <?= ListView::widget([
+                                                'dataProvider' => $sign,
+                                                'layout' => $template,
+                                                'emptyText' => 'Ничего не найдено.',
+                                                'viewParams' => [
+                                                    'document' => $model,
+                                                    'page_size' => $viewed->pagination->pageSize,
+                                                    'current_page' => (int) is_numeric(Yii::$app->request->get('page-sign')) ? Yii::$app->request->get('page-sign') : 0
+                                                ],
+                                                'itemView' => '_list-sign',
                                                 'pager' => [
                                                     'options' => [
                                                         'id' => 'list-viewed-pagination',
@@ -462,5 +518,42 @@ Modal::begin([
     <?php ActiveForm::end(); ?>
 
 <?php endif; ?>
+
+<?php Modal::end(); ?>
+
+<?php
+Modal::begin([
+    'title' => 'Подпись',
+    'id' => 'sign',
+    'size' => 'modal-lg',
+    'closeButton' => [
+        'id' => 'close-button',
+        'class' => 'close',
+        'data-dismiss' => 'modal',
+    ],
+    'clientOptions' => ['backdrop' => false]
+]);
+?>
+
+<?= $this->render('_sign', [
+    'model' => $model,
+]); ?>
+
+<?php Modal::end(); ?>
+
+<?php
+Modal::begin([
+    'title' => 'Просмотр подписи',
+    'id' => 'sign-view',
+    'closeButton' => [
+        'id' => 'close-button',
+        'class' => 'close',
+        'data-dismiss' => 'modal',
+    ],
+    'clientOptions' => ['backdrop' => false]
+]);
+?>
+
+<div id="sign-info" class="text-center"></div>
 
 <?php Modal::end(); ?>

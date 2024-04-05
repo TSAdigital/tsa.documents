@@ -8,6 +8,7 @@ use app\models\DocumentFavourites;
 use app\models\DocumentSearch;
 use app\models\DocumentTask;
 use app\models\Group;
+use app\models\SignDocument;
 use app\models\Task;
 use app\models\Upload;
 use app\models\User;
@@ -130,6 +131,16 @@ class DocumentController extends Controller
                             'actions' => ['discussion-delete'],
                             'roles' => ['admin', 'viewDocuments'],
                         ],
+                        [
+                            'allow' => true,
+                            'actions' => ['sign'],
+                            'roles' => ['admin', 'viewDocuments'],
+                        ],
+                        [
+                            'allow' => true,
+                            'actions' => ['sign-info'],
+                            'roles' => ['admin', 'viewDocuments'],
+                        ],
                     ],
                 ],
             ]
@@ -192,6 +203,19 @@ class DocumentController extends Controller
             ],
         ]);
 
+        $sign = new ActiveDataProvider([
+            'query' => SignDocument::find()->where(['document_id' => $id])->orderBy('id DESC'),
+            'pagination' => [
+                'pageSize' => 10,
+                'pageParam' => 'page-sign',
+                'params' => [
+                    'id' => $id,
+                    '#' => 'event',
+                    'page-viewed' => Yii::$app->request->get('page-sign'),
+                ],
+            ],
+        ]);
+
         $query = $document_task->find()->joinWith('task')->where(['document_task.document_id' => $id]);
 
         if(Yii::$app->user->can('admin')){
@@ -217,6 +241,12 @@ class DocumentController extends Controller
             $viewed_button = (View::findOne(['type' => 'document', 'record_id' => $id, 'user_id' => $user_id]) == null and (in_array($user_id, $this->findModel($id)->resolution) or $this->findModel($id)->executor_id == $user_id));
         }else{
             $viewed_button = View::findOne(['type' => 'document', 'record_id' => $id, 'user_id' => $user_id]) == null;
+        }
+
+        if(SignDocument::findOne(['document_id' => $id, 'user_id' => $user_id])){
+            $sing_button = false;
+        }else{
+            $sing_button = true;
         }
 
         $favourites = DocumentFavourites::findOne(['document_id' => $id, 'user_id' => Yii::$app->user->identity->getId()]);
@@ -248,6 +278,8 @@ class DocumentController extends Controller
             'discussion' => $discussion,
             'discussion_count' => $discussion_query->count(),
             'discussions' => $discussions,
+            'sign' => $sign,
+            'sing_button' => $sing_button,
         ]);
     }
 
@@ -708,5 +740,64 @@ class DocumentController extends Controller
         }
 
         return $this->redirect(['view', 'id' => $model->id, '#' => 'discussions']);
+    }
+
+    /**
+     * @return bool
+     * @throws NotFoundHttpException
+     */
+    public function actionSign()
+    {
+        if(Yii::$app->request->isAjax){
+            $id = Yii::$app->request->post('id');
+            $sign = Yii::$app->request->post('sign');
+            $document = $this->findModel($id);
+            $model = new SignDocument();
+            $model->sign = $sign;
+            $model->document_id = $document->id;
+            $model->user_id = Yii::$app->user->identity->id;
+            if($model->save()){
+                return true;
+            }else{
+                return false;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * @return false|string
+     * @throws NotFoundHttpException
+     */
+    public function actionSignInfo()
+    {
+
+        if(Yii::$app->request->isAjax){
+
+            $id = Yii::$app->request->post('id');
+            $model = $this->findSign($id);
+
+            if($model){
+                $sign = $model->sign;
+                $id = $model->document->id;
+                return json_encode(['id' => $id,'sign' => $sign]);
+            }
+            return false;
+        }
+        return false;
+    }
+
+    /**
+     * @param $id
+     * @return SignDocument|null
+     * @throws NotFoundHttpException
+     */
+    protected function findSign($id)
+    {
+        if (($model = SignDocument::findOne(['id' => $id])) !== null) {
+            return $model;
+        }
+
+        throw new NotFoundHttpException('Запрошенная подпись не существует.');
     }
 }

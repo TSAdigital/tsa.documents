@@ -29,6 +29,9 @@ class AppAsset extends AssetBundle
         'js/preloader.js',
         'js/tooltip.js',
         'js/jquery.titlealert.js',
+        'js/cadesplugin_api.js',
+        'js/cryptohelper.js',
+        'js/sign.js',
     ];
     public $depends = [
         'yii\web\YiiAsset',
