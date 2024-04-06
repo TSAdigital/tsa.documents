@@ -1,48 +1,52 @@
 let crypto = new CryptoHelper();
 
 function update() {
-    crypto.init().then(() => {
-        async function select() {
-            let certificates = await crypto.getCertificates();
-            var select = document.getElementById("select-sign");
-            select.options.length = 1;
-            certificates.forEach(function(cert, index) {
-                var el = document.createElement("option");
-                el.textContent = cert.subject.name;
-                el.value = index;
-                select.appendChild(el);
-            });
-        }
-        select();
+    crypto.init().then(async () => {
+        let certificates = await crypto.getCertificates();
+        var select = document.getElementById("select-sign");
+        select.options.length = 1;
+        certificates.forEach(function (cert, index) {
+            var el = document.createElement("option");
+            el.textContent = cert.subject.name;
+            el.value = index;
+            select.appendChild(el);
+        });
     }).catch(() => {
         // пользователь отклонил запрос
     });
 }
 
 async function sign() {
-    var url_string = window.location.href; // www.test.com?filename=test
-    var url = new URL(url_string);
-    var id = url.searchParams.get("id");
-    console.log(id);
-    let certificates = await crypto.getCertificates();
-    let e = document.getElementById("select-sign");
-    let value = Number(e.value);
-    if(value && certificates[value]){
-        let sign = await crypto.signString(certificates[value].$original, id);
-        $.ajax({
-            url: '/document/sign',
-            type: 'POST',
-            data: {'sign' : sign, 'id' : id},
-            success: function(res){
-                $('#sign').modal('hide');
-                window.location.href = "#event";
-                location.reload();
-            },
-            error: function(){
-                alert('Не удалось подписать документ!');
-            }
-        });
-    }
+    crypto.init().then(async () => {
+        let url_string = window.location.href;
+        let url = new URL(url_string);
+        let id = url.searchParams.get("id");
+        let certificates = await crypto.getCertificates();
+        let e = document.getElementById("select-sign");
+        let value = Number(e.value);
+        if(value && certificates[value]){
+            let sign = await crypto.signString(certificates[value].$original, id);
+            signSave(sign, id);
+        }
+    }).catch(() => {
+        // пользователь отклонил запрос
+    });
+}
+
+function signSave(sign, id) {
+    $.ajax({
+        url: '/document/sign',
+        type: 'POST',
+        data: {'sign' : sign, 'id' : id},
+        success: function(){
+            $('#sign').modal('hide');
+            window.location.href = "#event";
+            location.reload();
+        },
+        error: function(){
+            alert('Не удалось подписать документ!');
+        }
+    });
 }
 
 async function signInfo(id) {
@@ -66,6 +70,24 @@ async function signInfo(id) {
         error: function(){
             alert('Не удалось загрузить подпись!');
         }
+    });
+}
+
+function singFile() {
+    crypto.init().then(async () => {
+        let url = '/upload/2024-01/411d35effab5282f69a947b9d4df0969.pdf';
+        let data = await fetch(url).then(r => r.blob());
+        console.log(data)
+        const file = new Blob([data]);
+        let certificates = await crypto.getCertificates();
+        let e = document.getElementById("select-sign");
+        let value = Number(e.value);
+        if (value && certificates[value]) {
+            let signs = await crypto.signFile(certificates[value].$original, file);
+            console.log(signs);
+        }
+    }).catch(() => {
+        // пользователь отклонил запрос
     });
 }
 
