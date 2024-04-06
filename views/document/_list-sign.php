@@ -1,6 +1,6 @@
 <?php
 /**
- * @var app\models\View $model
+ * @var app\models\SignDocument $model
  * @var int $index
  * @var integer $current_page
  * @var integer $page_size

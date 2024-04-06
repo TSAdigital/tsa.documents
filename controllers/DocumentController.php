@@ -211,7 +211,7 @@ class DocumentController extends Controller
                 'params' => [
                     'id' => $id,
                     '#' => 'event',
-                    'page-viewed' => Yii::$app->request->get('page-sign'),
+                    'page-sign' => Yii::$app->request->get('page-sign'),
                 ],
             ],
         ]);

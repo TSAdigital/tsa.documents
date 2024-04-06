@@ -389,7 +389,6 @@ $this->params['buttons'] = [
                                                 'layout' => $template,
                                                 'emptyText' => 'Ничего не найдено.',
                                                 'viewParams' => [
-                                                    'document' => $model,
                                                     'page_size' => $viewed->pagination->pageSize,
                                                     'current_page' => (int) is_numeric(Yii::$app->request->get('page-viewed')) ? Yii::$app->request->get('page-viewed') : 0
                                                 ],
@@ -443,7 +442,6 @@ $this->params['buttons'] = [
                                                 'layout' => $template,
                                                 'emptyText' => 'Ничего не найдено.',
                                                 'viewParams' => [
-                                                    'document' => $model,
                                                     'page_size' => $viewed->pagination->pageSize,
                                                     'current_page' => (int) is_numeric(Yii::$app->request->get('page-sign')) ? Yii::$app->request->get('page-sign') : 0
                                                 ],
