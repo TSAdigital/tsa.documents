@@ -329,6 +329,7 @@ class DocumentController extends Controller
 
         if(Yii::$app->user->can('admin') or $model->user_id == Yii::$app->user->identity->id or $model->executor_id == Yii::$app->user->identity->id){
             if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
+                SignDocument::deleteAll(['document_id' => $id]);
                 return $this->redirect(['view', 'id' => $model->id]);
             }
         }else{
@@ -393,7 +394,7 @@ class DocumentController extends Controller
                 $upload->user_id = Yii::$app->user->identity->id;
 
                 if ($upload->save() && $upload->upload()) {
-
+                    SignDocument::deleteAll(['document_id' => $id]);
                     return $this->redirect(['view', 'id' => $model->id, '#' => 'file']);
 
                 }
@@ -462,6 +463,7 @@ class DocumentController extends Controller
 
             if(isset($url)){
                 $file->delete();
+                SignDocument::deleteAll(['document_id' => $id]);
                 $file = Yii::getAlias($url);
                 if(is_file($file) and !is_dir($file)){
                     unlink($file);
