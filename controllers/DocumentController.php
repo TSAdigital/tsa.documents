@@ -758,8 +758,6 @@ class DocumentController extends Controller
             $model->user_id = Yii::$app->user->identity->id;
             if($model->save()){
                 return true;
-            }else{
-                return false;
             }
         }
         return false;

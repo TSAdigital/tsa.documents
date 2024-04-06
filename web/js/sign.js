@@ -16,7 +16,7 @@ function update() {
     });
 }
 
-async function sign() {
+function sign() {
     crypto.init().then(async () => {
         let url_string = window.location.href;
         let url = new URL(url_string);
@@ -49,7 +49,7 @@ function signSave(sign, id) {
     });
 }
 
-async function signInfo(id) {
+function signInfo(id) {
     $.ajax({
         url: '/document/sign-info',
         type: 'POST',
