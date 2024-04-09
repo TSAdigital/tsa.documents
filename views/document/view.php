@@ -227,7 +227,8 @@ $this->registerJs($script);
                                         <thead>
                                             <tr>
                                                 <th scope="col">#</th>
-                                                <th scope="col" style="width: 100%">Наименование</th>                                              
+                                                <th scope="col" style="width: 85%">Наименование</th>     
+                                                <th class="text-nowrap" scope="col" style="width: 15%; text-align: center">Подпись</th>                                         
                                             </tr>
                                         </thead>
                                         <tbody>
