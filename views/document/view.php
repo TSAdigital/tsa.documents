@@ -50,7 +50,14 @@ $this->params['buttons'] = [
     ]) : null, */
     'undo' => Html::a('<i class="far fa-arrow-alt-circle-left text-muted"></i>Вернуться', ['document/index'], ['class' => 'btn btn-app'])
 ];
-
+$script = <<< JS
+$(document).on("click", ".open-modal", function () {
+    var elem = document.getElementsByClassName("add-id")[0];
+    elem.id = $(this).data('id')
+    $('#file-sign').modal('show');
+});
+JS;
+$this->registerJs($script);
 ?>
 
 <div class="container-fluid">
@@ -200,7 +207,8 @@ $this->params['buttons'] = [
                                         <thead>
                                             <tr>
                                                 <th scope="col">#</th>
-                                                <th scope="col" style="width: 95%">Наименование</th>
+                                                <th class="text-nowrap" scope="col" style="width: 90%">Наименование</th>
+                                                <th class="text-nowrap" scope="col" style="width: 5%; text-align: center">Подпись</th>
                                                 <th scope="col" style="width: 5%; text-align: center">' . Html::a('<i class="fas fa-plus-circle text-success"></i>', ['document/upload', 'id' => $model->id]) . '</th>                                                   
                                             </tr>
                                         </thead>
@@ -553,5 +561,25 @@ Modal::begin([
 ?>
 
 <div id="sign-info" class="text-center"></div>
+
+<?php Modal::end(); ?>
+
+<?php
+Modal::begin([
+    'title' => 'Подпись',
+    'id' => 'file-sign',
+    'size' => 'modal-lg',
+    'closeButton' => [
+        'id' => 'close-button',
+        'class' => 'close',
+        'data-dismiss' => 'modal',
+    ],
+    'clientOptions' => ['backdrop' => false]
+]);
+?>
+
+<?= $this->render('_sign-file', [
+    'model' => $model,
+]); ?>
 
 <?php Modal::end(); ?>

@@ -11,7 +11,7 @@ use yii\widgets\ActiveForm;
 
 <?php $form = ActiveForm::begin([
     'action' => ['index'],
-    'method' => 'get',
+    'method' => 'post',
     'options' => [
         'data-pjax' => 1
     ],
@@ -27,7 +27,7 @@ use yii\widgets\ActiveForm;
 
 <div class="row mt-3">
     <div class="col-5"><?= Html::a('<i class="fas fa-signature text-green"></i>Подписать', '#', ['class' => 'btn btn-app mx-auto btn-block mb-0', 'onclick' => 'sign()']) ?></div>
-    <div class="col-7"><?= Html::a('<i class="fas fa-redo text-dark"></i>Обновить список сертификатов', '#', ['class' => 'btn btn-app mx-auto btn-block mb-0', 'onclick' => 'update()']) ?></div>
+    <div class="col-7"><?= Html::a('<i class="fas fa-redo text-dark"></i>Обновить список сертификатов', '#', ['id' => 'select-sign', 'class' => 'btn btn-app mx-auto btn-block mb-0', 'onclick' => 'update(this.id)']) ?></div>
 </div>
 
 <?php ActiveForm::end(); ?>

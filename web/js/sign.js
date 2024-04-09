@@ -1,9 +1,9 @@
 let crypto = new CryptoHelper();
 
-function update() {
+function update(data) {
     crypto.init().then(async () => {
         let certificates = await crypto.getCertificates();
-        var select = document.getElementById("select-sign");
+        var select = document.getElementById(data);
         select.options.length = 1;
         certificates.forEach(function (cert, index) {
             var el = document.createElement("option");
@@ -73,19 +73,54 @@ function signInfo(id) {
     });
 }
 
-function singFile() {
-    crypto.init().then(async () => {
-        let url = '/upload/2024-01/411d35effab5282f69a947b9d4df0969.pdf';
-        let data = await fetch(url).then(r => r.blob());
-        console.log(data)
-        const file = new Blob([data]);
-        let certificates = await crypto.getCertificates();
-        let e = document.getElementById("select-sign");
-        let value = Number(e.value);
-        if (value && certificates[value]) {
-            let signs = await crypto.signFile(certificates[value].$original, file);
-            console.log(signs);
+function fileSign(id, sign){
+    let data = {
+        id: id,
+        sign: sign,
+        _csrf: yii.getCsrfToken()
+    };
+    $.ajax({
+        url: '/document/sign-file',
+        type: 'POST',
+        data: data,
+        success: function(){
+            $('#sign').modal('hide');
+            window.location.href = "#file";
+            location.reload();
+        },
+        error: function(){
+            alert('Не удалось подписать файл!');
         }
+    });
+}
+
+async function singFile(id) {
+    crypto.init().then(async () => {
+        let data = {
+            id: id,
+            _csrf: yii.getCsrfToken()
+        };
+        $.ajax({
+            url: '/document/get-file-url',
+            type: 'POST',
+            data: data,
+            success: async function (res) {
+                let file_url = res
+                if (file_url) {
+                    let data = await fetch(file_url).then(r => r.blob());
+                    let certificates = await crypto.getCertificates();
+                    let e = document.getElementById("select-file-sign");
+                    let value = Number(e.value);
+                    if (value && certificates[value]) {
+                        let signs = await crypto.signFile(certificates[value].$original, new Blob([data]));
+                        fileSign(id, signs)
+                    }
+                }
+            },
+            error: function(){
+                alert('Не удалось получить URL файла!');
+            }
+        });
     }).catch(() => {
         // пользователь отклонил запрос
     });

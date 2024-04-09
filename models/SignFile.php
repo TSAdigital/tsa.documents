@@ -7,26 +7,26 @@ use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
 
 /**
- * This is the model class for table "sign_document".
+ * This is the model class for table "sign_file".
  *
  * @property int $id
  * @property string $sign
- * @property int $document_id
+ * @property int $file_id
  * @property int $user_id
  * @property int $created_at
  * @property int $updated_at
  *
- * @property Document $document
+ * @property Upload $file
  * @property User $user
  */
-class SignDocument extends ActiveRecord
+class SignFile extends ActiveRecord
 {
     /**
      * {@inheritdoc}
      */
     public static function tableName()
     {
-        return 'sign_document';
+        return 'sign_file';
     }
 
     /**
@@ -48,15 +48,14 @@ class SignDocument extends ActiveRecord
             ['sign', 'required'],
             ['sign', 'string'],
 
-            ['document_id', 'integer'],
-            ['document_id', 'required'],
-            ['document_id', 'exist', 'skipOnError' => true, 'targetClass' => Document::class, 'targetAttribute' => ['document_id' => 'id']],
-            ['document_id', 'unique', 'targetAttribute' => ['document_id', 'user_id']],
+            ['file_id', 'required'],
+            ['file_id', 'integer'],
+            ['file_id', 'exist', 'skipOnError' => true, 'targetClass' => Upload::class, 'targetAttribute' => ['file_id' => 'id']],
+            ['file_id', 'unique', 'targetAttribute' => ['file_id', 'user_id']],
 
-            ['user_id', 'integer'],
             ['user_id', 'required'],
+            ['user_id', 'integer'],
             ['user_id', 'exist', 'skipOnError' => true, 'targetClass' => User::class, 'targetAttribute' => ['user_id' => 'id']],
-
         ];
     }
 
@@ -68,7 +67,7 @@ class SignDocument extends ActiveRecord
         return [
             'id' => 'Идентификатор',
             'sign' => 'Подпись',
-            'document_id' => 'Документ',
+            'file_id' => 'Файл',
             'user_id' => 'Пользователь',
             'created_at' => 'Запись создана',
             'updated_at' => 'Запись обновлена',
@@ -76,13 +75,13 @@ class SignDocument extends ActiveRecord
     }
 
     /**
-     * Gets query for [[Document]].
+     * Gets query for [[File]].
      *
      * @return \yii\db\ActiveQuery
      */
-    public function getDocument()
+    public function getFile()
     {
-        return $this->hasOne(Document::class, ['id' => 'document_id']);
+        return $this->hasOne(Upload::class, ['id' => 'file_id']);
     }
 
     /**

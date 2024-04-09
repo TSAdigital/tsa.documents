@@ -9,6 +9,7 @@ use app\models\DocumentSearch;
 use app\models\DocumentTask;
 use app\models\Group;
 use app\models\SignDocument;
+use app\models\SignFile;
 use app\models\Task;
 use app\models\Upload;
 use app\models\User;
@@ -139,6 +140,21 @@ class DocumentController extends Controller
                         [
                             'allow' => true,
                             'actions' => ['sign-info'],
+                            'roles' => ['admin', 'viewDocuments'],
+                        ],
+                        [
+                            'allow' => true,
+                            'actions' => ['sign-file'],
+                            'roles' => ['admin', 'viewDocuments'],
+                        ],
+                        [
+                            'allow' => true,
+                            'actions' => ['get-file-url'],
+                            'roles' => ['admin', 'viewDocuments'],
+                        ],
+                        [
+                            'allow' => true,
+                            'actions' => ['sig-download'],
                             'roles' => ['admin', 'viewDocuments'],
                         ],
                     ],
@@ -751,7 +767,7 @@ class DocumentController extends Controller
     public function actionSign()
     {
         if(Yii::$app->request->isAjax){
-            $id = Yii::$app->request->post('id');
+            $id = (int) Yii::$app->request->post('id');
             $sign = Yii::$app->request->post('sign');
             $document = $this->findModel($id);
             $model = new SignDocument();
@@ -774,7 +790,7 @@ class DocumentController extends Controller
 
         if(Yii::$app->request->isAjax){
 
-            $id = Yii::$app->request->post('id');
+            $id = (int) Yii::$app->request->post('id');
             $model = $this->findSign($id);
 
             if($model){
@@ -799,5 +815,85 @@ class DocumentController extends Controller
         }
 
         throw new NotFoundHttpException('Запрошенная подпись не существует.');
+    }
+
+    /**
+     * @return false|string
+     * @throws ForbiddenHttpException
+     * @throws NotFoundHttpException
+     */
+    public function actionGetFileUrl()
+    {
+        if(Yii::$app->request->isAjax){
+
+            $id = (int) Yii::$app->request->post('id');
+
+            $model = Upload::findOne(['id' => $id, 'type' => 'document']);
+
+            if ($model){
+
+                if(!$this->isAccess($model->record_id) and $this->findModel($model->record_id) != null){
+                    throw new ForbiddenHttpException('Вам не разрешено производить данное действие.');
+                }
+
+                $url = 'upload/' . $model->dir . '/' . $model->file_name . '.' . $model->file_extensions;
+
+                if(isset($url)){
+                    $file = Yii::getAlias($url);
+                    if(is_file($file) and !is_dir($file)) {
+                        return '/' . $url;
+                    }
+                }else{
+                    return false;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    public function actionSignFile()
+    {
+        $model = new SignFile();
+
+        if(Yii::$app->request->isAjax){
+
+            $sign = Yii::$app->request->post('sign');
+
+            $id = (int) Yii::$app->request->post('id');
+
+            if(!empty($id) and !empty($sign)) {
+                $model->sign = $sign;
+                $model->file_id = $id;
+                $model->user_id = Yii::$app->user->identity->id;
+                $model->save();
+            }
+
+            return false;
+        }
+        return false;
+    }
+
+    public function actionSigDownload($id){
+
+        $model = SignFile::findOne($id);
+        if($model) {
+            $data = $model->sign;
+            $file_name = Inflector::slug ($model->file->name) . '.' . $model->file->file_extensions  . '.sig';
+
+            header('Content-Description: File Transfer');
+            header('Content-Type: application/octet-stream');
+            header('Content-Disposition: attachment; filename= ' . $file_name);
+            header('Content-Transfer-Encoding: binary');
+            header('Expires: 0');
+            header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
+            header('Pragma: public');
+            header('Content-Length: ' . mb_strlen($data));
+            ob_clean();
+            flush();
+
+            echo $data;
+            exit;
+        }
     }
 }
