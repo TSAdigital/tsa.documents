@@ -29,7 +29,7 @@ $this->title = $model->name;
 $this->params['breadcrumbs'][] = ['label' => 'Документы', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 $this->params['buttons'] = [
-    'sign' => $sing_button ? Html::a('<i class="fas fa-signature text-green"></i>Подписать', '#', ['class' => 'btn btn-app', 'data-toggle' => 'modal', 'data-target' => '#sign']) : null,
+    'sign' => $sing_button ? Html::a('<i class="fas fa-signature text-green"></i>Подпись', '#', ['class' => 'btn btn-app', 'data-toggle' => 'modal', 'data-target' => '#sign']) : null,
     'favourites' => $favourites ? Html::a('<i class="fas fa-star text-warning"></i>Избранное', ['document/favourites', 'id' => $model->id], ['class' => 'btn btn-app', 'data' => [
         'confirm' => 'Удалить этот документ из избранного?',
         'method' => 'post',

@@ -47,6 +47,10 @@ class DocumentController extends Controller
                     'actions' => [
                         'delete' => ['POST'],
                         'file-delete' => ['POST'],
+                        'sign' => ['POST'],
+                        'sign-info' => ['POST'],
+                        'sign-file' => ['POST'],
+                        'get-file-url' => ['POST'],
                     ],
                 ],
                 'access' => [
@@ -852,6 +856,9 @@ class DocumentController extends Controller
         return false;
     }
 
+    /**
+     * @return false
+     */
     public function actionSignFile()
     {
         $model = new SignFile();
@@ -874,6 +881,10 @@ class DocumentController extends Controller
         return false;
     }
 
+    /**
+     * @param $id
+     * @return void
+     */
     public function actionSigDownload($id){
 
         $model = SignFile::findOne($id);
