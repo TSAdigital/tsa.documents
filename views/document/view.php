@@ -200,6 +200,7 @@ $this->registerJs($script);
                         <div class="tab-pane" id="file">
 
                             <?php
+                                $data = (Yii::$app->user->can('admin') or $model->user_id == Yii::$app->user->identity->id) ? Html::a('<i class="fas fa-plus-circle text-success"></i>', ['document/upload', 'id' => $model->id]) : 'Меню';
                                 $template = '
                                         {summary}  
                                         <div class="table-responsive">
@@ -208,27 +209,7 @@ $this->registerJs($script);
                                             <tr>
                                                 <th scope="col">#</th>
                                                 <th class="text-nowrap" scope="col" style="width: 90%">Наименование</th>
-                                                <th class="text-nowrap" scope="col" style="width: 5%; text-align: center">Подпись</th>
-                                                <th scope="col" style="width: 5%; text-align: center">' . Html::a('<i class="fas fa-plus-circle text-success"></i>', ['document/upload', 'id' => $model->id]) . '</th>                                                   
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            {items}
-                                            </tbody>
-                                        </table>
-                                        </div>
-                                        {pager}
-                                ';
-
-                                $template_user = '
-                                        {summary}  
-                                        <div class="table-responsive">
-                                        <table class="table table-striped table-bordered mb-0">
-                                        <thead>
-                                            <tr>
-                                                <th scope="col">#</th>
-                                                <th scope="col" style="width: 85%">Наименование</th>     
-                                                <th class="text-nowrap" scope="col" style="width: 15%; text-align: center">Подпись</th>                                         
+                                                <th class="text-nowrap" scope="col" style="width: 10%; text-align: center">' . $data . '</th>                                             
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -242,7 +223,7 @@ $this->registerJs($script);
 
                             <?= ListView::widget([
                                 'dataProvider' => $file,
-                                'layout' => (Yii::$app->user->can('admin') or $model->user_id == Yii::$app->user->identity->id) ? $template : $template_user,
+                                'layout' => $template,
                                 'emptyText' => (Yii::$app->user->can('admin') or $model->user_id == Yii::$app->user->identity->id) ? Html::a('<i class="fas fa-plus-circle text-success"></i>Добавить', ['document/upload', 'id' => $model->id], ['class' => 'btn btn-app mx-auto d-block mb-0']) : 'Ничего не найдено.',
                                 'viewParams' => [
                                     'document' => $model,
