@@ -1,4 +1,5 @@
 let crypto = new CryptoHelper();
+let btn = document.getElementById('sign-file')
 
 function update(data) {
     crypto.init().then(async () => {
@@ -105,13 +106,15 @@ async function singFile(id) {
             type: 'POST',
             data: data,
             success: async function (res) {
-                let file_url = res
+                let file_url = res;
                 if (file_url) {
-                    let data = await fetch(file_url).then(r => r.blob());
                     let certificates = await crypto.getCertificates();
                     let e = document.getElementById("select-file-sign");
                     let value = Number(e.value);
                     if (value && certificates[value]) {
+                        btn.classList.add("disabled");
+                        btn.innerHTML = '<i class="fas fa-signature text-green"></i>Подпись...'
+                        let data = await fetch(file_url).then(r => r.blob());
                         let signs = await crypto.signFile(certificates[value].$original, new Blob([data]));
                         fileSign(id, signs)
                     }

@@ -26,7 +26,7 @@ use yii\widgets\ActiveForm;
 ]); ?>
 
 <div class="row mt-3">
-    <div class="col-5"><?= Html::a('<i class="fas fa-signature text-green"></i>Подписать', '#', ['class' => 'add-id btn btn-app mx-auto btn-block mb-0', 'onclick' => 'singFile(this.id)']) ?></div>
+    <div class="col-5"><?= Html::a('<i class="fas fa-signature text-green"></i>Подписать', '#', ['id' => 'sign-file', 'class' => 'add-id btn btn-app mx-auto btn-block mb-0', 'onclick' => 'singFile(this.id)']) ?></div>
     <div class="col-7"><?= Html::a('<i class="fas fa-redo text-dark"></i>Обновить список сертификатов', '#', ['id' => 'select-file-sign', 'class' => 'btn btn-app mx-auto btn-block mb-0', 'onclick' => 'update(this.id)']) ?></div>
 </div>
 
